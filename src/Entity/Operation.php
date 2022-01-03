@@ -20,6 +20,7 @@ class Operation
     private $id;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=25)
      */
     private $libelle;

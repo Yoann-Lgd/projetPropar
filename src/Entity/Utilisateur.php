@@ -24,6 +24,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
@@ -45,16 +48,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private $operations;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=25)
      */
     private $nom;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="string", length=25)
      */
     private $prenom;
 
     /**
+     * @Assert\Regex("/^([+]?\d{1,2}[-\s]?|)\d{3}[-\s]?\d{3}[-\s]?\d{4}$/")
      * @ORM\Column(type="string", length=25)
      */
     private $telephone;
