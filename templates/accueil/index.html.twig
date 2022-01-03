@@ -7,11 +7,14 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
-<img src="https://avatars.dicebear.com/api/identicon/{{ app.user.username }}.svg" height="32" width="32" alt="...">
+{# <img src="https://avatars.dicebear.com/api/identicon/{{ app.user.username }}.svg" height="32" width="32" alt="..."> #}
 
 <div class="example-wrapper">
-    <h1>Hello {{ app.user.username }} Welcome to the {{ controller_name }}! ✅</h1>
-
+    {% if app.user %}
+        <h1>Hello {{ app.user.username }} Welcome to the {{ controller_name }}! ✅</h1>
+    {% else %}
+        <h1>Hello {{ controller_name }} ! ✅</h1>
+    {% endif %}
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code><a href="{{ 'C:/wamp64/www/TP_AFPA/Git/projetPropar/src/Controller/AccueilController.php'|file_link(0) }}">src/Controller/AccueilController.php</a></code></li>

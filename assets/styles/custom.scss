@@ -6,3 +6,12 @@ $warning:       #FFC700;
 $danger:        #F1416C;
 $light:         #f8f9fc;
 $dark:          #022C43;
+
+
+#loginHtmlBackground {
+    background: linear-gradient(0deg, rgba(32, 212, 137, 0.5), rgba(32, 212, 137, 0.5)),  url(../images/LoginBackground.png);
+    background-size:auto
+}
+#loginBodyBackground {
+    background: none;
+}
