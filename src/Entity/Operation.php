@@ -31,6 +31,7 @@ class Operation
 
     /**
      * @ORM\ManyToOne(targetEntity=StatutOperation::class, inversedBy="operations")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $statutOperation;
 
@@ -47,7 +48,6 @@ class Operation
 
     /**
      * @ORM\ManyToOne(targetEntity=Utilisateur::class, inversedBy="operations")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $utilisateur;
 
@@ -143,5 +143,9 @@ class Operation
         $this->utilisateur = $utilisateur;
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->libelle;
     }
 }

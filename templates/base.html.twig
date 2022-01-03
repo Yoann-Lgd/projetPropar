@@ -14,9 +14,47 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        <style>
+        html {
+            background: linear-gradient(0deg, rgba(32, 212, 137, 0.75), rgba(32, 212, 137, 0.75)), url({{ asset('build/images/BaseBackground.png') }});
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0px;
+            position: relative;
+            font-family: Roboto;
+            background: none;
+        }
+
+        #baseSidebarDiv {
+            background: none;
+            height: 100%;
+            flex-grow: 1;
+        }
+
+        #baseBodyDiv {
+            background-color: #F5F8FA;
+            height: 100%;
+            flex-grow: 2.6;
+        }
+        </style>
     </head>
-    <body>
-  
+    <body >
+    <div id="baseSidebarDiv"></div>
+    <div id="baseBodyDiv">
         {% block body %}{% endblock %}
+    </div>
+        
     </body>
 </html>

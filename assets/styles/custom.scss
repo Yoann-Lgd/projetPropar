@@ -8,6 +8,28 @@ $light:         #f8f9fc;
 $dark:          #022C43;
 
 
+#baseHtmlBackground {
+    background: linear-gradient(0deg, rgba(32, 212, 137, 0.75), rgba(32, 212, 137, 0.75)), url(../images/LoginBackground.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+}
+#baseBodyBackground {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0px;
+    position: relative;
+    font-family: Roboto;
+}
+
+
 #loginHtmlBackground {
     background: linear-gradient(0deg, rgba(32, 212, 137, 0.5), rgba(32, 212, 137, 0.5)),  url(../images/LoginBackground.png);
     background-size:auto
