@@ -4,7 +4,22 @@
 
 {% block body %}
     <h1>Operation index</h1>
-
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <i class="bi bi-check-circle me-2 text-success"></i>
+            <div class="text-success">
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <i class="bi bi-check-circle me-2 text-danger"></i>
+            <div class="text-danger">
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
     <table class="table">
         <thead>
             <tr>
@@ -22,7 +37,12 @@
                 <td>{{ operation.description }}</td>
                 <td>
                     <a href="{{ path('operation_show', {'id': operation.id}) }}">show</a>
-                    <a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+                    
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('operation_edit', {'id': operation.id}) }}">edit</a>
+                    {% endif %}
+                   
                 </td>
             </tr>
         {% else %}
@@ -32,6 +52,8 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('operation_new') }}">Create new</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('operation_new') }}">Create new</a>
+    {% endif %}
+    
 {% endblock %}
