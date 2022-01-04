@@ -14,7 +14,7 @@
     {% endfor %}
     {% for message in app.flashes('error') %}
         <div class="alert alert-danger d-flex align-items-center" role="alert">
-            <i class="bi bi-check-circle me-2 text-danger"></i>
+            <i class="bi bi-x-circle me-2 text-danger"></i>
             <div class="text-danger">
                 {{ message }}
             </div>

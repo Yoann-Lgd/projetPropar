@@ -94,7 +94,7 @@ class OperationController extends AbstractController
         $this->addFlash('error', 'Votre opération n\'a pas été suprimée.');
         return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
     }
-    
+
     /**
      * @Route("/{id}", name="operation_reserved", methods={"POST"})
      */

@@ -104,7 +104,8 @@
             {% block search %}{% endblock %}
             <div>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <p>{{ app.user.nom }}.{{ app.user.prenom}} id:{{ app.user.id}} </p>
+                    {# <p>{{ app.user.nom }}.{{ app.user.prenom}}</p> #}
+                    <p>{{ app.user.username }}</p>
                     <img src="https://avatars.dicebear.com/api/identicon/{{ app.user.nom }}-{{ app.user.prenom }}.svg" height="32" width="32" alt="...">
                 {% endif %}
             </div>
