@@ -19,10 +19,11 @@
             background: linear-gradient(0deg, rgba(32, 212, 137, 0.75), rgba(32, 212, 137, 0.75)), url({{ asset('build/images/BaseBackground.png') }});
             background-repeat: no-repeat;
             background-position: center;
+            background-attachment: fixed;
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100vh;
+            height: 100%;
         }
         body {
             width: 100%;
@@ -40,20 +41,79 @@
         #baseSidebarDiv {
             background: none;
             height: 100%;
-            flex-grow: 1;
+            flex: 1;
         }
 
         #baseBodyDiv {
-            background-color: #F5F8FA;
+            background-color: #F5F8FA; 
             height: 100%;
-            flex-grow: 2.6;
+            flex: 3;
+        }
+
+        #navbar {
+            /* Auto Layout */
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px 40px;
+
+            width: 100%;
+            height: 92px;
+
+            /* lightGray */
+            background: #F5F8FA;
+            background-color: red;
+        }
+        #navbar > div {
+            background-color: green;
+            display: flex;
+            flex-direction: row;
+            justify-content: end;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            height: 100%;
+        }
+        #navbar > div > p {
+            margin: 0;
+        }
+        #navbar > div > img {
+            border: 2px solid #20D489;
+            box-sizing: border-box;
+            border-radius: 5px; 
+            margin-left: 10px;
+        }
+        #container {
+            /* Auto Layout */
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            padding: 40px;
+
+            height: auto;
+
+            /* lightGray */
+            background: #F5F8FA;
         }
         </style>
     </head>
     <body >
-    <div id="baseSidebarDiv"></div>
+    <div id="baseSidebarDiv">
+    </div>
     <div id="baseBodyDiv">
-        {% block body %}{% endblock %}
+        <div id="navbar" class="sticky-top">
+            {% block search %}{% endblock %}
+            <div>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <p>{{ app.user.nom }}.{{ app.user.prenom}}</p>
+                    <img src="https://avatars.dicebear.com/api/identicon/{{ app.user.nom }}-{{ app.user.prenom }}.svg" height="32" width="32" alt="...">
+                {% endif %}
+            </div>
+        </div>
+        <div id="container">
+            {% block body %}{% endblock %}
+        </div>
     </div>
         
     </body>
