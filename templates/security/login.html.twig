@@ -277,10 +277,14 @@
 
                     {% if app.user %}
                         {% for message in app.flashes('success') %}
-                            <div class="alert alert-success">
-                                {{ message }}
+                            <div class="alert alert-success d-flex align-items-center" role="alert">
+                                <i class="bi bi-check-circle me-2 text-success"></i>
+                                <div class="text-success">
+                                    {{ message }}
+                                </div>
                             </div>
                         {% endfor %}
+                        
                         <div class="mb-3">
                             Vous êtes connecté en tant que  {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
                         </div>
