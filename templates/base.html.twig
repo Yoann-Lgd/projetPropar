@@ -1,69 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link
+		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-        <style>
-        html {
-            background: linear-gradient(0deg, rgba(32, 212, 137, 0.75), rgba(32, 212, 137, 0.75)), url({{ asset('build/images/BaseBackground.png') }});
-            background-repeat: no-repeat;
-            background-position: center;
-            background-attachment: fixed;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-        }
-        body {
-            width: 100%;
-            height: 100%;
-            display: flex;
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+		<style>
+			html {
+				background: linear-gradient(0deg, rgba(32, 212, 137, 0.75), rgba(32, 212, 137, 0.75)), url({{ asset('build/images/BaseBackground.png') }});
+				background-repeat: no-repeat;
+				background-position: center;
+				background-attachment: fixed;
+				margin: 0;
+				padding: 0;
+				height: 100%;
+
+			}
+			body {
+				height: 100%;
+				display: flex;
+				font-family: Roboto;
+				background: none;
+				/* display: flex;
             flex-direction: row;
             justify-content: flex-end;
             align-items: center;
             padding: 0px;
             position: relative;
             font-family: Roboto;
-            background: none;
-        }
+            background: none;*/
+			}
 
-        #baseSidebarDiv {
-            background: none;
-            height: 100%;
-            flex: 1;
-        }
+			p {
+				margin: 0;
+			}
+			#baseSidebar {
+				min-width: 308px;
+			}
+			#baseSidebarHeader {
+				/*display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            align-self: stretch;
+            height: 92px;*/
+			}
+			#baseSidebarHeader > h3 {
 
-        #baseBodyDiv {
+				/* font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 21px;
+
+            color: #FFFFFF;*/
+			}
+			#baseSidebarBody {
+				/*display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            align-self: stretch;
+            height: 100%;*/
+			}
+
+			#baseBody {
+				width: 100%;
+			}
+			#navbar {
+				height: 92px
+			}
+
+			#container {
+				height: 100%;
+			}
+			/*  #baseBodyDiv {
             background-color: #F5F8FA; 
             height: 100%;
             flex: 3;
         }
 
-        #navbar {
-            /* Auto Layout */
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0px 40px;
-
-            width: 100%;
-            height: 92px;
-
-            /* lightGray */
-            background: #F5F8FA;
-        }
+        
         #navbar > div {
             display: flex;
             flex-direction: row;
@@ -83,7 +113,6 @@
             margin-left: 10px;
         }
         #container {
-            /* Auto Layout */
             display: flex;
             flex-direction: column;
             align-items: left;
@@ -91,29 +120,40 @@
 
             height: auto;
 
-            /* lightGray */
             background: #F5F8FA;
+        }*/
+        .shadow-custom {
+            box-shadow: 0px 2px 28px rgba(58, 59, 69, 0.01);
         }
-        </style>
-    </head>
-    <body >
-    <div id="baseSidebarDiv">
-    </div>
-    <div id="baseBodyDiv">
-        <div id="navbar" class="sticky-top">
-            {% block search %}{% endblock %}
-            <div>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {# <p>{{ app.user.nom }}.{{ app.user.prenom}}</p> #}
-                    <p>{{ app.user.username }}</p>
-                    <img src="https://avatars.dicebear.com/api/identicon/{{ app.user.nom }}-{{ app.user.prenom }}.svg" height="32" width="32" alt="...">
-                {% endif %}
-            </div>
-        </div>
-        <div id="container">
-            {% block body %}{% endblock %}
-        </div>
-    </div>
-        
-    </body>
-</html>
+        .rounded-custom {
+            border-radius: 10px;
+        }
+		</style>
+	</head>
+	<body>
+		<div id="baseSidebar" class="d-flex flex-column align-items-center ">
+			<div id="baseSidebarHeader">
+				<h3 class="text-white">
+					Projet Propar
+				</h3>
+			</div>
+			<div id="baseSidebarBody"></div>
+		</div>
+		<div id="baseBody" class="bg-light d-flex flex-column">
+
+			<div id="navbar" class="d-flex flex-row align-items-center justify-content-between sticky-top px-5"> {% block search %}{% endblock %}
+				<div class="d-flex flex-row align-items-center">
+					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+						<p class="text-black-50 px-3">{{ app.user.nom }}
+							{{ app.user.prenom }}</p>
+						<img src="https://avatars.dicebear.com/api/initials/{{ app.user.nom }}.{{ app.user.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 ">
+					{% endif %}
+				</div>
+			</div>
+
+			<div id="container" class="d-flex flex-column p-5"> {% block body %}{% endblock %}
+				</div>
+			</div>
+
+		</body>
+	</html>

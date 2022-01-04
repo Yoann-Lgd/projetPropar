@@ -1,7 +1,92 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccueilController!{% endblock %}
+{% block title %}Hello AccueilController!
+{% endblock %}
 
 {% block body %}
-        <h1>Hello {{ controller_name }} ! ✅</h1>
+
+	<div class="d-flex flex-row w-100">
+		<h5 class="fw-normal">
+			{{ controller_name }}
+		</h5>
+	</div>
+
+	<div class="d-flex flex-row w-100">
+		<h5 class="fw-normal">
+			Statistique
+		</h5>
+	</div>
+
+	<div class="d-flex flex-column w-100">
+		<h5 class="fw-normal">
+			Utilisateur
+		</h5>
+		<div class="table-responsive rounded-custom bg-white shadow-custom text-center ">
+			<table class="table table-hover table-borderless">
+				<thead >
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">Photo</th>
+						<th scope="col">Rôle</th>
+						<th scope="col">Nom</th>
+						<th scope="col">Prénom</th>
+						<th scope="col">Téléphone</th>
+						<th scope="col">Adresse</th>
+						<th scope="col">Mail</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="align-middle">
+						<th scope="row">#1</th>
+						<td><img src="https://avatars.dicebear.com/api/identicon/Johnson.Arthur.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 "></td>
+						<td>Expert</td>
+						<td>Johnson</td>
+						<td>Arthur</td>
+						<td>(+33)6 55 51 3035</td>
+						<td>18 rue de Belleville 75020 Paris</td>
+						<td>michelle.rivera@example.com</td>
+						<td class="d-flex flex-row justify-content-evenly w-100"><i class="bi bi-pen"></i><i class="bi bi-trash text-danger"></i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="d-flex flex-column w-100">
+		<h5 class="fw-normal">
+			Client
+		</h5>
+                <div class="table-responsive rounded-custom bg-white shadow-custom">
+			<table class="table table-hover table-borderless">
+				<thead >
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">First</th>
+						<th scope="col">Last</th>
+						<th scope="col">Handle</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">1</th>
+						<td>Mark</td>
+						<td>Otto</td>
+						<td>@mdo</td>
+					</tr>
+					<tr>
+						<th scope="row">2</th>
+						<td>Jacob</td>
+						<td>Thornton</td>
+						<td>@fat</td>
+					</tr>
+					<tr>
+						<th scope="row">3</th>
+						<td colspan="2">Larry the Bird</td>
+						<td>@twitter</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 {% endblock %}

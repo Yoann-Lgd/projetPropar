@@ -80,7 +80,7 @@ class OperationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="operation_delete", methods={"POST"})
+     * @Route("/{id}/delete", name="operation_delete", methods={"POST"})
      */
     public function delete(Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
     {
