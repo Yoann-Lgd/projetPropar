@@ -98,7 +98,7 @@ class OperationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="operation_reserved", methods={"POST"})
+     * @Route("/{id}/reserved", name="operation_reserved", methods={"POST"})
      */
     public function reserved(Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
     {

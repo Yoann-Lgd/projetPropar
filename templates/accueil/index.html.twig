@@ -70,7 +70,7 @@
 				{% for utilisateur in utilisateurs %}
 					<tr class="align-middle">
 						<td scope="row">#{{ utilisateur.id }}</td>
-						<td><img src="https://avatars.dicebear.com/api/identicon/Johnson.Arthur.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 bg-light"></td>
+						<td><img src="https://avatars.dicebear.com/api/identicon/{{ utilisateur.nom }}.{{ utilisateur.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 bg-light"></td>
 						<td>{{ utilisateur.role }}</td>
 						<td>{{ utilisateur.nom }}</td>
 						<td>{{ utilisateur.prenom }}</td>
@@ -118,13 +118,13 @@
 				{% for client in clients %}
 					<tr class="align-middle">
 						<td scope="row">#{{ client.id }}</td>
-						<td><img src="https://avatars.dicebear.com/api/identicon/".{{ client.nom }}".".{{ client.prenom }}".svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 bg-light"></td>
+						<td><img src="https://avatars.dicebear.com/api/identicon/{{ client.nom }}.{{ client.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 bg-light"></td>
 						<td>{{ client.nom }}</td>
 						<td>{{ client.prenom }}</td>
 						<td>{{ client.telephone }}</td>
 						<td>{{ client.adresse }}</td>
 						<td>{{ client.mail }}</td>
-						<td class="d-flex flex-row justify-content-evenly w-100"><a href="#"><i class="bi bi-pen"></i></a><a href="#"><i class="bi bi-trash text-danger"></i></a></td>
+						<td class="d-flex flex-row justify-content-evenly w-100"><a href="{{ path('client_edit', {'id': client.id}) }}"><i class="bi bi-pen"></i></a><a href="#"><i class="bi bi-trash text-danger"></i></a></td>
 					</tr>
 				{% endfor %}
 				</tbody>
