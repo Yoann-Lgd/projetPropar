@@ -12,13 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-/**
- * @Route("/accueil", name="accueil")
- */
+
 class AccueilController extends AbstractController
 {
     /**
-     * @Route("/", name="accueil")
+     * @Route("/accueil", name="accueil")
      */
     public function accueil(ClientRepository $clientRepository, UtilisateurRepository $utilisateurRepository): Response
     {
