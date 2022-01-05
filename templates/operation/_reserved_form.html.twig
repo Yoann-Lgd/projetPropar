@@ -4,8 +4,7 @@
 </form>
 
 <!-- Ancien formulaire -->
-<!-- <form method="post" action="{{ path('operation_reserved', {'id': operation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir réserver cet opération ?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('reserved' ~ operation.id) }}">
+<!-- <form method="post" action="{{ path('operation_index', {'id': operation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir réserver cet opération ?');">
     <input type="hidden" name="operation[libelle]" value="{{ operation.libelle }}">
     <input type="hidden" name="operation[description]" value="{{ operation.description }}">
     <input type="hidden" name="operation[typeOperation]" value="{{ operation.typeOperation }}">
