@@ -1,4 +1,10 @@
-<form method="post" action="{{ path('operation_reserved', {'id': operation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir réserver cet opération ?');">
+<form method="post" action="{{ path('operation_reserved', {'id': operation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de bien vouloir réserver cette opération ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('reserved' ~ operation.id) }}">
+    <button class="btn">Réserver</button>
+</form>
+
+<!-- Ancien formulaire -->
+<!-- <form method="post" action="{{ path('operation_reserved', {'id': operation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir réserver cet opération ?');">
     <input type="hidden" name="_token" value="{{ csrf_token('reserved' ~ operation.id) }}">
     <input type="hidden" name="operation[libelle]" value="{{ operation.libelle }}">
     <input type="hidden" name="operation[description]" value="{{ operation.description }}">
@@ -6,5 +12,4 @@
     <input type="hidden" name="operation[utilisateur]" value="{{ app.user.id }}">
     <input type="hidden" name="operation[statutOperation]" value="2"> 
     <button class="btn">Reserved</button>
-</form>
-
+</form> -->

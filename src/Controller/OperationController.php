@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Operation;
+use App\Entity\StatutOperation;
 use App\Form\OperationType;
 use App\Repository\OperationRepository;
+use App\Repository\StatutOperationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -100,9 +102,15 @@ class OperationController extends AbstractController
      */
     public function reserved(Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(OperationType::class, $operation);
+        $user = $this->getUser(); /* --> Ajout */
+        $statutOperation = $entityManager->getRepository(StatutOperation::class) /* --> Ajout */
+                                        ->findOneBy(['id' => 2]); /* --> Ajout */
+        // $form = $this->createForm(OperationType::class, $operation);
         if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token'))) {
-            $form->handleRequest($request);
+            // $form->handleRequest($request);
+            $operation->setUtilisateur($user); /* --> Ajout */
+            $operation->setStatutOperation($statutOperation); /* --> Ajout */
+            $entityManager->persist($operation); /* --> Ajout */
             $entityManager->flush();
             $this->addFlash('success', 'Votre opération a été réservée.');
             return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
