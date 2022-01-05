@@ -46,10 +46,13 @@
 					{% set nbOpTermine = nbOpTermine + 1 %}
 				{% endif %}
 			{% endfor %}
-			<div>Nombre total d'opérations : {{nbOp}}</div>
-			<div>Nombre d'opérations Libres : {{nbOpLibre}}</div>
-			<div>Nombre d'opération réservées : {{nbOpReserve}}</div>
-			<div>Nombre d'opération terminées : {{nbOpTermine}}</div>
+			{% set PctOpLibre = nbOpLibre / nbOp * 100 %}
+			{% set PctOpReserve = nbOpReserve / nbOp * 100 %}
+			{% set PctOpTermine = nbOpTermine / nbOp * 100 %}
+			<div>Nombre total d'opérations : {{nbOp}}  </div>
+			<div>Nombre d'opérations Libres : {{nbOpLibre}} --> {{PctOpLibre|number_format(2, '.', ',')}}% </div>
+			<div>Nombre d'opération réservées : {{nbOpReserve}} --> {{PctOpReserve|number_format(2, '.', ',')}}%</div>
+			<div>Nombre d'opération terminées : {{nbOpTermine}} --> {{PctOpTermine|number_format(2, '.', ',')}}%</div>
 		</div>
 	</div>
 
