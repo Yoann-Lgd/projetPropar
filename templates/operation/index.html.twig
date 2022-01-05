@@ -19,6 +19,112 @@
             </div>
         </div>
     {% endfor %}
+
+    <div class="d-flex flex-column w-100 mb-5">
+		<h5 class="fw-normal mb-3">
+			Opérations Libres
+		</h5>
+        <div class="d-flex flex-row justify-content-between flex-wrap">
+        {% for operation in operations|filter(operation => operation.statutOperation == 'Libre') %}
+            <div class="rounded-custom bg-white shadow-custom d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #C0C0C0, 0px 2px 28px rgba(58, 59, 69, 0.01);">
+                <div>
+                    <h5>{{ operation.libelle }}</h5>
+                    <p class="text-dark text-opacity-50">{{ operation.statutOperation }}</p>
+                </div>
+                <i class="bi bi-info-circle fs-1 text-success text-opacity-50" data-bs-toggle="modal" data-bs-target="#operationLibre_{{ operation.id }}"></i>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="operationLibre_{{ operation.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header d-flex flex-row justify-content-between align-items-start">
+                    <div class="d-flex flex-column">
+                        <h5 class="modal-title text-secondary" id="staticBackdropLabel">{{ operation.libelle }}</h5>
+                        <p class="text-dark text-opacity-50">{{ operation.description }}</p>
+                    </div>
+                    <div class="d-flex flex-row align-items-start h-100">
+                    <p data-toggle="tooltip" title="Hooray!" class="px-2">Statut d'operation</p>
+                    <i class="bi bi-dash-circle-dotted text-dark text-opacity-50" data-bs-dismiss="modal" aria-label="Close"w></i>
+                    {# <button type="button" class="btn-close" id="example" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></button> #}
+                   
+                    </div>
+                </div>
+                <div class="modal-body d-flex flex-column ">
+                    <h5>Details</h5>
+                    <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
+                    <p>Utilisateur: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
+                </div>
+                <div class="modal-footer">
+                 {{ include('operation/_reserved_form.html.twig') }}
+                </div>
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+        </div>
+	</div>
+
+    <div class="d-flex flex-column w-100 mb-5">
+		<h5 class="fw-normal mb-3">
+			Opérations En Cours
+		</h5>
+        <div class="d-flex flex-row justify-content-between flex-wrap">
+        {% for operation in operations|filter(operation => operation.statutOperation == 'En cours') %}
+            <div class="rounded-custom bg-white shadow-custom d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #FFC700, 0px 2px 28px rgba(58, 59, 69, 0.01);">
+                <div>
+                    <h5>{{ operation.libelle }}</h5>
+                    <p class="text-dark text-opacity-50">{{ operation.statutOperation }}</p>
+                </div>
+                <i class="bi bi-info-circle fs-1 text-success text-opacity-50" data-bs-toggle="modal" data-bs-target="#operationEnCours_{{ operation.id }}"></i>
+            </div>
+             <!-- Modal -->
+            <div class="modal fade" id="operationEnCours_{{ operation.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header d-flex flex-row justify-content-between align-items-start">
+                    <div class="d-flex flex-column">
+                        <h5 class="modal-title text-secondary" id="staticBackdropLabel">{{ operation.libelle }}</h5>
+                        <p class="text-dark text-opacity-50">{{ operation.description }}</p>
+                    </div>
+                    <div class="d-flex flex-row align-items-start h-100">
+                    <p data-toggle="tooltip" title="Hooray!" class="px-2">Statut d'operation</p>
+                    <i class="bi bi-clock-fill text-warning" data-bs-dismiss="modal" aria-label="Close"></i>
+                    {# <button type="button" class="btn-close" id="example" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></button> #}
+                   
+                    </div>
+                </div>
+                <div class="modal-body d-flex flex-column ">
+                    <h5>Details</h5>
+                    <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
+                    <p>Utilisateur: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
+                </div>
+                <div class="modal-footer">
+                 {{ include('operation/_finish_form.html.twig') }}
+                </div>
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+        </div>
+	</div>
+
+    <div class="d-flex flex-column w-100 mb-5">
+		<h5 class="fw-normal mb-3">
+			Opérations terminées
+		</h5>
+        <div class="d-flex flex-row justify-content-between flex-wrap">
+        {% for operation in operations|filter(operation => operation.statutOperation == 'Terminée') %}
+            <div class="rounded-custom bg-white shadow-custom d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #20D489, 0px 2px 28px rgba(58, 59, 69, 0.01);">
+                <div>
+                    <h5>{{ operation.libelle }}</h5>
+                    <p class="text-dark text-opacity-50">{{ operation.statutOperation }}</p>
+                </div>
+                <i class="bi bi-info-circle fs-1 text-success text-opacity-50"></i>
+            </div>
+        {% endfor %}
+        </div>
+	</div>
+
     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Liste des Opérations Libres
@@ -68,7 +174,7 @@
 			</table>
 		</div>
 	</div>
-
+{# 
 
     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
@@ -153,6 +259,6 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
+	</div> #}
     
 {% endblock %}

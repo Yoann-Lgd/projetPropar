@@ -24,13 +24,9 @@
         </div>
     {% endfor %}
 
-	<div class="d-flex flex-row w-100 mb-5">
-		<h5 class="fw-normal mb-3">
-
-		</h5>
-	</div>
+	
 	{% if is_granted('ROLE_ADMIN') %}
-	<div class="d-flex flex-row w-100 mb-5">
+	<div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Statistique
 		</h5>
