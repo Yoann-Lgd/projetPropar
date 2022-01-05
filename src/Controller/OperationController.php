@@ -119,5 +119,24 @@ class OperationController extends AbstractController
         $this->addFlash('error', 'Votre opération n\'a pas été réservée.');
         return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * @Route("/{id}/finish", name="operation_finish", methods={"POST"})
+     */
+    public function finish(Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
+    {
+        $statutOperation = $entityManager->getRepository(StatutOperation::class)
+                                        ->findOneBy(['libelle' => 3]); 
+        if ($this->isCsrfTokenValid('finish'.$operation->getId(), $request->request->get('_token'))) {
+            $operation->setStatutOperation($statutOperation); 
+            $entityManager->persist($operation);
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre opération a été terminée.');
+            return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+            
+        }
+        $this->addFlash('error', 'Votre opération n\'a pas été terminée.');
+        return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+    }
     
 }

@@ -30,6 +30,8 @@
 						<th scope="col" style="width: 54px;">Id</th>
 						<th scope="col">Libelle</th>
 						<th scope="col">Description</th>
+                        <th scope="col">Utilisateurs</th>
+                        <th scope="col">Statut d'operation</th>
 						<th scope="col" style="width: 90px;">Actions</th>
 					</tr>
 				</thead>
@@ -38,7 +40,9 @@
 					<tr class="align-middle">
 						<td scope="row">#{{ operation.id }}</td>
                         <td>{{ operation.libelle }}</td>
-						<td>{{ operation.description }}</td>
+						<td>{{ operation.description }}</td>                            
+                        <td>{{ operation.utilisateur }}</td>
+                        <td>{{ operation.statutOperation }}</td>
 						<td class="d-flex flex-row justify-content-evenly w-100">
                             <a href="{{ path('operation_show', {'id': operation.id}) }}"><i class="bi bi-eye"></i></a>
                             {% if is_granted('ROLE_ADMIN') %}
