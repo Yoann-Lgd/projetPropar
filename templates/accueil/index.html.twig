@@ -60,8 +60,10 @@
 			<div>Nombre d'opération réservées : {{nbOpReserve}} --> {{PctOpReserve|number_format(2, '.', ',')}}%</div>
 			<div>Nombre d'opération terminées : {{nbOpTermine}} --> {{PctOpTermine|number_format(2, '.', ',')}}%</div>
 			<div>Chiffre d'Affaire :  {{CA|number_format(0, '.', ' ')}}€</div>
-			{% endif %}
+			{% else %}
 			<div>Il n'y a pas d'opérations</div>
+			{% endif %}
+			
 
 			
 			
