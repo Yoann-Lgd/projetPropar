@@ -137,12 +137,16 @@
                                 {% endif %}
                             </td>
                         </tr>
-
-                    {% endif %}
-                    <!-- {% else %}
+                    {% else %}
                     <tr>
-                        <td colspan="6">no records found</td>
-                    </tr> -->
+                        <td colspan="6">Pas d'opération terminée</td>
+                    </tr>
+                    {% endif %}
+                
+				{% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
                 {% endfor %}
 				</tbody>
 			</table>
