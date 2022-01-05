@@ -14,7 +14,7 @@ class OperationType extends AbstractType
         $builder
             ->add('libelle')
             ->add('description')
-            ->add('statutOperation')
+            // ->add('statutOperation')
             ->add('typeOperation')
             ->add('clients')
             ->add('utilisateur')
