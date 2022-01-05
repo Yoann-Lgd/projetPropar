@@ -27,13 +27,14 @@
 				margin: 0;
 				padding: 0;
 				height: 100%;
-
 			}
 			body {
+				/* min-height: 100%; */
 				height: 100%;
 				display: flex;
 				font-family: Roboto;
 				background: none;
+				overflow: hidden;
 				/* display: flex;
             flex-direction: row;
             justify-content: flex-end;
@@ -79,13 +80,16 @@
 
 			#baseBody {
 				width: 100%;
+				height: auto;
 			}
 			#navbar {
 				height: 92px
+
 			}
 
 			#container {
 				height: 100%;
+				overflow: auto;
 			}
 			/*  #baseBodyDiv {
             background-color: #F5F8FA; 
@@ -130,30 +134,43 @@
         }
 		</style>
 	</head>
-	<body>
-		<div id="baseSidebar" class="d-flex flex-column align-items-center ">
-			<div id="baseSidebarHeader">
-				<h3 class="text-white">
-					Projet Propar
-				</h3>
+	<body class="text-dark">
+		<div id="baseSidebar" class="d-flex flex-column align-items-center p-3">
+			<div id="baseSidebarHeader" class="mb-3">
+				<a href="/accueil" class="text-decoration-none text-dark fs-3 fw-bold">
+					Projet Propar.
+				</a>
 			</div>
-			<div id="baseSidebarBody"></div>
+			<div id="baseSidebarBody" class="w-100">
+			<a href="/accueil" class="text-decoration-none text-white bg-light bg-opacity-25 rounded-3 p-2 d-block fs-6 fw-bold mb-3">{% if is_granted('ROLE_ADMIN') %}<i class="bi bi-graph-up mx-2"></i>Statistique{% else %}<i class="bi bi-house mx-2"></i>Accueil{% endif %}</a>
+			{% if is_granted('ROLE_ADMIN') %}
+			<a href="/client" class="text-decoration-none text-white bg-light bg-opacity-25 rounded-3 p-2 d-block fs-6 fw-bold mb-3"><i class="bi bi-people mx-2"></i>Client</a>
+			{% endif %}
+			<a href="/operation" class="text-decoration-none text-white bg-light bg-opacity-25 rounded-3 p-2 d-block fs-6 fw-bold"><i class="bi bi-calculator mx-2"></i>Opération</a>
+			</div>
 		</div>
 		<div id="baseBody" class="bg-light d-flex flex-column">
 
-			<div id="navbar" class="d-flex flex-row align-items-center justify-content-between sticky-top px-5"> {% block search %}{% endblock %}
+			<div id="navbar" class="d-flex flex-row align-items-center justify-content-between sticky-top px-5 bg-light"> 
+				<div>
+					{% block search %}{% endblock %}
+				</div>
 				<div class="d-flex flex-row align-items-center">
 					{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-						<p class="text-black-50 px-3">{{ app.user.nom }}
+						<p class="text-black-50">{{ app.user.nom }}
 							{{ app.user.prenom }}</p>
-						<img src="https://avatars.dicebear.com/api/initials/{{ app.user.nom }}.{{ app.user.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 ">
+						<img src="https://avatars.dicebear.com/api/identicon/{{ app.user.nom }}.{{ app.user.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 bg-white mx-3">
+					<a href="/logout" class="text-decoration-none text-black-50">
+						Déconnexion
+					</a>
 					{% endif %}
 				</div>
 			</div>
 
-			<div id="container" class="d-flex flex-column p-5"> {% block body %}{% endblock %}
-				</div>
+			<div id="container" class="d-flex flex-column p-5"> 
+				{% block body %}{% endblock %}
 			</div>
+		</div>
 
-		</body>
-	</html>
+	</body>
+</html>

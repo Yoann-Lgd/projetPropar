@@ -3,41 +3,43 @@
 {% block title %}Client index{% endblock %}
 
 {% block body %}
-    <h1>Client index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Telephone</th>
-                <th>Adresse</th>
-                <th>Mail</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for client in clients %}
-            <tr>
-                <td>{{ client.id }}</td>
-                <td>{{ client.nom }}</td>
-                <td>{{ client.prenom }}</td>
-                <td>{{ client.telephone }}</td>
-                <td>{{ client.adresse }}</td>
-                <td>{{ client.mail }}</td>
-                <td>
-                    <a href="{{ path('client_show', {'id': client.id}) }}">show</a>
-                    <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    <div class="d-flex flex-column w-100 mb-5">
+		<h5 class="fw-normal mb-3">
+			Client index
+		</h5>
+		<div class="table-responsive rounded-custom bg-white shadow-custom text-center">
+			<table class="table table-hover table-borderless text-dark">
+				<thead >
+					<tr>
+						<th scope="col" style="width: 54px;">Id</th>
+						<th scope="col" style="width: 90px;">Photo</th>
+						<th scope="col">Nom</th>
+						<th scope="col">Prénom</th>
+						<th scope="col">Téléphone</th>
+						<th scope="col">Adresse</th>
+						<th scope="col">Mail</th>
+						<th scope="col" style="width: 90px;">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for client in clients %}
+					<tr class="align-middle">
+						<td scope="row">#{{ client.id }}</td>
+						<td><img src="https://avatars.dicebear.com/api/identicon/Johnson.Arthur.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 bg-light"></td>
+						<td>{{ client.nom }}</td>
+						<td>{{ client.prenom }}</td>
+						<td>{{ client.telephone }}</td>
+						<td>{{ client.adresse }}</td>
+						<td>{{ client.mail }}</td>
+						<td class="d-flex flex-row justify-content-evenly w-100">
+                            <a href="{{ path('client_show', {'id': client.id}) }}"><i class="bi bi-eye"></i></a>
+                            <a href="{{ path('client_edit', {'id': client.id}) }}"><i class="bi bi-pen"></i></a>
+                        </td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
     <a href="{{ path('client_new') }}">Create new</a>
 {% endblock %}
