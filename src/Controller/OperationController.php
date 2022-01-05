@@ -126,7 +126,7 @@ class OperationController extends AbstractController
     public function finish(Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
     {
         $statutOperation = $entityManager->getRepository(StatutOperation::class)
-                                        ->findOneBy(['libelle' => 3]); 
+                                        ->findOneBy(['id' => 3]); 
         if ($this->isCsrfTokenValid('finish'.$operation->getId(), $request->request->get('_token'))) {
             $operation->setStatutOperation($statutOperation); 
             $entityManager->persist($operation);

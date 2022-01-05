@@ -21,7 +21,7 @@
     {% endfor %}
     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
-			Operation index
+			Liste des Opérations Libres
 		</h5>
 		<div class="table-responsive rounded-custom bg-white shadow-custom text-center">
 			<table class="table table-hover table-borderless text-dark">
@@ -62,5 +62,91 @@
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('operation_new') }}">Create new</a>
     {% endif %}
+
+    <div class="d-flex flex-column w-100 mb-5">
+		<h5 class="fw-normal mb-3">
+			Liste des opérations En Cours
+		</h5>
+		<div class="table-responsive rounded-custom bg-white shadow-custom text-center">
+			<table class="table table-hover table-borderless text-dark">
+				<thead >
+					<tr>
+						<th scope="col" style="width: 54px;">Id</th>
+						<th scope="col">Libelle</th>
+						<th scope="col">Description</th>
+                        <th scope="col">Utilisateurs</th>
+                        <th scope="col">Statut d'operation</th>
+						<th scope="col" style="width: 90px;">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for operation in operations %}
+					<tr class="align-middle">
+						<td scope="row">#{{ operation.id }}</td>
+                        <td>{{ operation.libelle }}</td>
+						<td>{{ operation.description }}</td>                            
+                        <td>{{ operation.utilisateur }}</td>
+                        <td>{{ operation.statutOperation }}</td>
+						<td class="d-flex flex-row justify-content-evenly w-100">
+                            <a href="{{ path('operation_show', {'id': operation.id}) }}"><i class="bi bi-eye"></i></a>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('operation_edit', {'id': operation.id}) }}"><i class="bi bi-pen"></i></a>
+                            {% endif %}
+                        </td>
+					</tr>
+				{% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
+                {% endfor %}
+                
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+    <div class="d-flex flex-column w-100 mb-5">
+		<h5 class="fw-normal mb-3">
+			Liste des Opérations terminées
+		</h5>
+		<div class="table-responsive rounded-custom bg-white shadow-custom text-center">
+			<table class="table table-hover table-borderless text-dark">
+				<thead >
+					<tr>
+						<th scope="col" style="width: 54px;">Id</th>
+						<th scope="col">Libelle</th>
+						<th scope="col">Description</th>
+                        <th scope="col">Utilisateurs</th>
+                        <th scope="col">Statut d'operation</th>
+						<th scope="col" style="width: 90px;">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for operation in operations %}
+                    {% if operation.statutOperation == "Terminée" %}
+                        <tr class="align-middle">
+                            <td scope="row">#{{ operation.id }}</td>
+                            <td>{{ operation.libelle }}</td>
+                            <td>{{ operation.description }}</td>                            
+                            <td>{{ operation.utilisateur }}</td>
+                            <td>{{ operation.statutOperation }}</td>
+                            <td class="d-flex flex-row justify-content-evenly w-100">
+                                <a href="{{ path('operation_show', {'id': operation.id}) }}"><i class="bi bi-eye"></i></a>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('operation_edit', {'id': operation.id}) }}"><i class="bi bi-pen"></i></a>
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                    {% endif %}
+                    <!-- {% else %}
+                    <tr>
+                        <td colspan="6">no records found</td>
+                    </tr> -->
+                {% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
     
 {% endblock %}
