@@ -36,8 +36,8 @@
 					</tr>
 				</thead>
 				<tbody>
-				{% for operation in operations %}
-                    {% if operation.statutOperation == "Libre" %}
+				{% for operation in operations|filter(operation => operation.statutOperation == 'Libre') %}
+
 					<tr class="align-middle">
 						<td scope="row">#{{ operation.id }}</td>
                         <td>{{ operation.libelle }}</td>
@@ -51,15 +51,11 @@
                             {% endif %}
                         </td>
 					</tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="6">Pas d'opération libre</td>
-                    </tr>
-                    {% endif %}
-				{% else %}
-                    <tr>
-                        <td colspan="4">no records found</td>
-                    </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">Pas d'opération libre</td>
+                </tr>
+
                 {% endfor %}
 				</tbody>
 			</table>
@@ -86,8 +82,8 @@
 					</tr>
 				</thead>
 				<tbody>
-				{% for operation in operations %}
-                    {% if operation.statutOperation == "En cours" %}
+                {% for operation in operations|filter(operation => operation.statutOperation == 'En cours') %}
+
 					<tr class="align-middle">
 						<td scope="row">#{{ operation.id }}</td>
                         <td>{{ operation.libelle }}</td>
@@ -101,15 +97,10 @@
                             {% endif %}
                         </td>
 					</tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="6">Pas d'opération en cours</td>
-                    </tr>
-                    {% endif %}
-				{% else %}
-                    <tr>
-                        <td colspan="4">no records found</td>
-                    </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">Pas d'opération en cours</td>
+                </tr>
                 {% endfor %}
                 
 				</tbody>
@@ -134,8 +125,7 @@
 					</tr>
 				</thead>
 				<tbody>
-				{% for operation in operations %}
-                    {% if operation.statutOperation == "Terminée" %}
+                {% for operation in operations|filter(operation => operation.statutOperation == 'Terminée') %}
                         <tr class="align-middle">
                             <td scope="row">#{{ operation.id }}</td>
                             <td>{{ operation.libelle }}</td>
@@ -149,16 +139,11 @@
                                 {% endif %}
                             </td>
                         </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="6">Pas d'opération terminée</td>
-                    </tr>
-                    {% endif %}
-                
-				{% else %}
-                    <tr>
-                        <td colspan="4">no records found</td>
-                    </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">Pas d'opération terminée</td>
+                </tr>
+
                 {% endfor %}
 				</tbody>
 			</table>
