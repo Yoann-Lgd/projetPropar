@@ -48,14 +48,23 @@
 					{% set CA = CA + operation.typeOperation.prix %}
 				{% endif %}
 			{% endfor %}
-			{% set PctOpLibre = nbOpLibre / nbOp * 100 %}
-			{% set PctOpReserve = nbOpReserve / nbOp * 100 %}
-			{% set PctOpTermine = nbOpTermine / nbOp * 100 %}
+
+			{% if nbOp != 0 %}
+				{% set PctOpLibre = nbOpLibre / nbOp * 100 %}
+				{% set PctOpReserve = nbOpReserve / nbOp * 100 %}
+				{% set PctOpTermine = nbOpTermine / nbOp * 100 %}
 			<div>Nombre total d'opérations : {{nbOp}}  </div>
-			<div>Nombre d'opérations Libres : {{nbOpLibre}} --> {{PctOpLibre|number_format(2, '.', ',')}}% </div>
+			<div>
+				Nombre d'opérations Libres : {{nbOpLibre}} --> {{PctOpLibre|number_format(2, '.', ',')}}% 
+			</div>
 			<div>Nombre d'opération réservées : {{nbOpReserve}} --> {{PctOpReserve|number_format(2, '.', ',')}}%</div>
 			<div>Nombre d'opération terminées : {{nbOpTermine}} --> {{PctOpTermine|number_format(2, '.', ',')}}%</div>
 			<div>Chiffre d'Affaire :  {{CA|number_format(0, '.', ' ')}}€</div>
+			{% endif %}
+			<div>Il n'y a pas d'opérations</div>
+
+			
+			
 		</div>
 	</div>
 
