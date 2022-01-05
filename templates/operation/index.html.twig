@@ -57,13 +57,18 @@
                 </tr>
 
                 {% endfor %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <tr>
+                    <td colspan="6"><a type="button" class="btn btn-secondary text-light" href="{{ path('operation_new') }}">Ajouter Une opération</a></td>
+                </tr>
+                
+                {% endif %}
 				</tbody>
 			</table>
 		</div>
 	</div>
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('operation_new') }}">Create new</a>
-    {% endif %}
+
 
     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
