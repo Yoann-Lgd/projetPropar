@@ -19,19 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class OperationController extends AbstractController
 {
     /**
-     * @Route("/", name="operation_index", methods={"GET"})
+     * @Route("/", name="operation_index", methods={"GET", "POST"})
      */
-    public function index(OperationRepository $operationRepository): Response
-    {
-        return $this->render('operation/index.html.twig', [
-            'operations' => $operationRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/new", name="operation_new", methods={"GET", "POST"})
-     */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, EntityManagerInterface $entityManager,OperationRepository $operationRepository): Response
     {
         $operation = new Operation();
         $form = $this->createForm(OperationType::class, $operation);
@@ -56,11 +46,47 @@ class OperationController extends AbstractController
             return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('operation/new.html.twig', [
+        return $this->renderForm('operation/index.html.twig', [
+            'operations' => $operationRepository->findAll(),
             'operation' => $operation,
             'form' => $form,
         ]);
     }
+
+    // /**
+    //  * @Route("/new", name="operation_new", methods={"GET", "POST"})
+    //  */
+    // public function new(Request $request, EntityManagerInterface $entityManager,OperationRepository $operationRepository): Response
+    // {
+    //     $operation = new Operation();
+    //     $form = $this->createForm(OperationType::class, $operation);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         if (!empty($operation->getUtilisateur()) ) {
+    //             $statutOperation = $entityManager->getRepository(StatutOperation::class)
+    //                                             ->findOneBy(['id' => 2]);
+    //             $operation->setStatutOperation($statutOperation);
+    //             $entityManager->persist($operation);
+    //             $entityManager->flush();
+    //         } else {
+    //             $statutOperation = $entityManager->getRepository(StatutOperation::class) 
+    //                                                 ->findOneBy(['id' => 1]);
+    //             $operation->setStatutOperation($statutOperation);
+    //             $entityManager->persist($operation);
+    //             $entityManager->flush();
+    //         }
+            
+    //         $this->addFlash('success', 'Votre opération a été crée.');
+    //         return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->renderForm('operation/new.html.twig', [
+    //         'operations' => $operationRepository->findAll(),
+    //         'operation' => $operation,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     /**
      * @Route("/{id}", name="operation_show", methods={"GET"})
@@ -68,7 +94,7 @@ class OperationController extends AbstractController
     public function show(Operation $operation): Response
     {
         $form = $this->createForm(OperationType::class, $operation);
-        return $this->render('operation/show.html.twig', [
+        return $this->render('operation/new.html.twig', [
             'operation' => $operation,
             'form' => $form,
         ]);
