@@ -1,4 +1,4 @@
 <form method="post" action="{{ path('operation_finish', {'id': operation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de bien vouloir terminer cette opération ?');">
     <input type="hidden" name="_token" value="{{ csrf_token('finish' ~ operation.id) }}">
-    <button class="btn btn-success text-white">Terminer</button>
+    <button class="btn btn-success text-white rounded-custom px-3 fw-bold">Terminer</button>
 </form>

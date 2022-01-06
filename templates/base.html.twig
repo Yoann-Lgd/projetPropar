@@ -129,9 +129,15 @@
         .shadow-custom {
             box-shadow: 0px 2px 28px rgba(58, 59, 69, 0.01);
         }
+		.shadow-modal {
+			box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+		}
         .rounded-custom {
             border-radius: 10px;
         }
+		.modal-backdrop.show {
+			opacity: .2;
+		}
 		</style>
 	</head>
 	<body class="text-dark">
@@ -167,7 +173,7 @@
 				</div>
 			</div>
 
-			<div id="container" class="d-flex flex-column p-5"> 
+			<div id="container" class="d-flex flex-column p-5 bg-light"> 
 				{% block body %}{% endblock %}
 			</div>
 		</div>

@@ -1,15 +1,15 @@
-$primary:       #5710B2;
+$primary:       #A055FF;
 $secondary:     #20D489;
 $success:       #20D489;
 $info:          #00B2FF;
 $warning:       #FFC700;
-$danger:        #F1416C;
-$light:         #f8f9fc;
+$danger:        #f1416c;
+$light:         #fbf9f6;
 $dark:          #022C43;
 
 
 #baseHtmlBackground {
-    background: linear-gradient(0deg, rgba(32, 212, 137, 0.75), rgba(32, 212, 137, 0.75)), url(../images/LoginBackground.png);
+    background: linear-gradient(0deg, rgba(160, 85, 255, 0.75), rgba(160, 85, 255, 0.75)), url(../images/LoginBackground.png);
     background-repeat: no-repeat;
     background-position: center;
     margin: 0;
@@ -31,7 +31,7 @@ $dark:          #022C43;
 
 
 #loginHtmlBackground {
-    background: linear-gradient(0deg, rgba(32, 212, 137, 0.5), rgba(32, 212, 137, 0.5)),  url(../images/LoginBackground.png);
+    background: linear-gradient(0deg, rgba(160, 85, 255, 0.75), rgba(160, 85, 255, 0.75)),  url(../images/LoginBackground.png);
     background-size:auto
 }
 #loginBodyBackground {

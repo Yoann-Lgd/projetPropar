@@ -20,25 +20,6 @@
         </div>
     {% endfor %}
 
-    <!-- Modal -->
-    <div class="modal fade" id="operationAjout" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0">
-        <div class="modal-header d-flex flex-row justify-content-between align-items-start">
-            <div class="d-flex flex-column">
-                <h5 class="modal-title text-secondary" id="staticBackdropLabel">Ajout d'une opération</h5>
-            </div>
-            <div class="d-flex flex-row align-items-start h-100">
-            <button type="button" class="btn-close" id="example" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></button>
-            </div>
-        </div>
-        <div class="modal-body d-flex flex-column ">
-               {{ include('operation/_form.html.twig', {'button_label': 'Créer'}) }}
-        </div>
-        </div>
-    </div>
-    </div>
-
     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Opérations Libres
@@ -48,14 +29,19 @@
             <div class="rounded-custom bg-white shadow-custom d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #C0C0C0, 0px 2px 28px rgba(58, 59, 69, 0.01);">
                 <div>
                     <h5>{{ operation.libelle }}</h5>
-                    <p class="text-dark text-opacity-50">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</p>
+                    <p class="text-dark text-opacity-50">
+                    {% for client in operation.clients %}
+                    Client: <span class="text-primary">{{ client }}</span>
+                    {% endfor %}
+                    {# {{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€ #}
+                    </p>
                 </div>
                 <i class="bi bi-info-circle fs-1 text-success text-opacity-50" data-bs-toggle="modal" data-bs-target="#operationLibre_{{ operation.id }}"></i>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="operationLibre_{{ operation.id }}" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-0">
+                <div class="modal-content border-0 rounded-custom shadow-modal p-3">
                 <div class="modal-header d-flex flex-row justify-content-between align-items-start">
                     <div class="d-flex flex-column">
                         <h5 class="modal-title text-secondary" id="staticBackdropLabel">{{ operation.libelle }}</h5>
@@ -80,7 +66,7 @@
                 <div class="modal-footer">
                 {% if is_granted('ROLE_ADMIN') %}
                     {{ include('operation/_delete_form.html.twig') }}
-                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white">Modifier</a>
+                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
                 {% endif %}
                     {{ include('operation/_reserved_form.html.twig') }}
                 </div>
@@ -88,9 +74,29 @@
             </div>
             </div>
         {% endfor %}
+        {% if is_granted('ROLE_ADMIN') %}
         <button class="bg-transparent rounded-custom border-secondary border-2 rounded-2 d-flex flex-row justify-content-center align-items-center p-4 mb-4 opacity-50" style="min-width: 347px; border-style: dashed;" data-bs-toggle="modal" data-bs-target="#operationAjout">
                 <i class="bi bi-plus-circle-dotted fs-1 text-success"></i>
         </button>
+        <!-- Modal -->
+        <div class="modal fade" id="operationAjout" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-custom shadow-modal p-3">
+            <div class="modal-header d-flex flex-row justify-content-between align-items-start">
+                <div class="d-flex flex-column">
+                    <h5 class="modal-title text-secondary" id="staticBackdropLabel">Ajout d'une opération</h5>
+                </div>
+                <div class="d-flex flex-row align-items-start h-100">
+                <button type="button" class="btn-close" id="example" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></button>
+                </div>
+            </div>
+            <div class="modal-body d-flex flex-column ">
+                {{ include('operation/_form.html.twig', {'button_label': 'Créer'}) }}
+            </div>
+            </div>
+        </div>
+        </div>
+        {% endif %}
         </div>
 	</div>
 
@@ -110,7 +116,7 @@
              <!-- Modal -->
             <div class="modal fade" id="operationEnCours_{{ operation.id }}"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-0">
+                <div class="modal-content border-0 rounded-custom shadow-modal p-3">
                 <div class="modal-header d-flex flex-row justify-content-between align-items-start">
                     <div class="d-flex flex-column">
                         <h5 class="modal-title text-secondary" id="staticBackdropLabel">{{ operation.libelle }}</h5>
@@ -135,7 +141,7 @@
                 <div class="modal-footer">
                 {% if is_granted('ROLE_ADMIN') %}
                     {{ include('operation/_delete_form.html.twig') }}
-                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white">Modifier</a>
+                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
                 {% endif %}
                     {{ include('operation/_finish_form.html.twig') }}
                 </div>
@@ -164,7 +170,7 @@
             <!-- Modal -->
             <div class="modal fade" id="operationTerminee_{{ operation.id }}" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-0">
+                <div class="modal-content border-0 rounded-custom shadow-modal p-3">
                 <div class="modal-header d-flex flex-row justify-content-between align-items-start">
                     <div class="d-flex flex-column">
                         <h5 class="modal-title text-secondary" id="staticBackdropLabel">{{ operation.libelle }}</h5>
@@ -189,7 +195,7 @@
                 {% if is_granted('ROLE_ADMIN') %}
                 <div class="modal-footer">
                     {{ include('operation/_delete_form.html.twig') }}
-                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white">Modifier</a>
+                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
                 </div>
                 {% endif %}
                 </div>

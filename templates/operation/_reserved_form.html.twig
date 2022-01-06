@@ -1,4 +1,4 @@
 <form method="post" action="{{ path('operation_reserved', {'id': operation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de bien vouloir réserver cette opération ?');">
     <input type="hidden" name="_token" value="{{ csrf_token('reserved' ~ operation.id) }}">
-    <button class="btn btn-secondary text-white">Réserver</button>
+    <button class="btn btn-secondary text-white rounded-custom px-3 fw-bold">Réserver</button>
 </form>
