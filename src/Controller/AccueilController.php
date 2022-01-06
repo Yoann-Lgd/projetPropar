@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\RegistrationFormType;
+use App\Form\UpdateUserFormType;
 
 class AccueilController extends AbstractController
 {
@@ -58,7 +59,7 @@ class AccueilController extends AbstractController
      */
     public function register(Utilisateur $utilisateur,Request $request, EntityManagerInterface $entityManager): Response
     {
-        $formRegister = $this->createForm(RegistrationFormType::class, $utilisateur);
+        $formRegister = $this->createForm(UpdateUserFormType::class, $utilisateur);
         $formRegister->handleRequest($request);
 
         if ($formRegister->isSubmitted() && $formRegister->isValid()) {
@@ -71,7 +72,7 @@ class AccueilController extends AbstractController
             return $this->redirectToRoute('accueil');
         }
 
-        return $this->renderForm('registration/register.html.twig', [
+        return $this->renderForm('utilisateur/edit.html.twig', [
             'utilisateur' => $utilisateur,
             'registrationForm' => $formRegister,
         ]);
