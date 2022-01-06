@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-
+use App\Form\RegistrationFormType;
 
 class AccueilController extends AbstractController
 {
@@ -28,10 +28,10 @@ class AccueilController extends AbstractController
         ]);
     }
 
-    /**
+   /**
      * @Route("/{id}/delete", name="utilisateur_delete", methods={"POST"})
      */
-    public function delete(Request $request, Utilisateur $utilisateur, OperationRepository $operationRepository, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Utilisateur $utilisateur, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$utilisateur->getId(), $request->request->get('_token'))) {
             $op = $entityManager->getRepository(Operation::class)
@@ -54,9 +54,9 @@ class AccueilController extends AbstractController
     }
 
 /**
-     * @Route("/{id}/update", name="utilisateur_update", methods={"POST"})
+     * @Route("/{id}/update", name="utilisateur_edit", methods={"GET", "POST"})
      */
-    public function register(Utilisateur $utilisateur, Request $request, EntityManagerInterface $entityManager): Response
+    public function register(Utilisateur $utilisateur,Request $request, EntityManagerInterface $entityManager): Response
     {
         $formRegister = $this->createForm(RegistrationFormType::class, $utilisateur);
         $formRegister->handleRequest($request);
@@ -71,9 +71,9 @@ class AccueilController extends AbstractController
             return $this->redirectToRoute('accueil');
         }
 
-        return $this->render('accueil/index.html.twig', [
-            'registrationForm' => $formRegister->createView(),
+        return $this->renderForm('registration/register.html.twig', [
             'utilisateur' => $utilisateur,
+            'registrationForm' => $formRegister,
         ]);
     }
 
