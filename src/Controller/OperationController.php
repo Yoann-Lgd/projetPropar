@@ -38,8 +38,20 @@ class OperationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($operation);
-            $entityManager->flush();
+            if (!empty($operation->getUtilisateur()) ) {
+                $statutOperation = $entityManager->getRepository(StatutOperation::class)
+                                                ->findOneBy(['id' => 2]);
+                $operation->setStatutOperation($statutOperation);
+                $entityManager->persist($operation);
+                $entityManager->flush();
+            } else {
+                $statutOperation = $entityManager->getRepository(StatutOperation::class) 
+                                                    ->findOneBy(['id' => 1]);
+                $operation->setStatutOperation($statutOperation);
+                $entityManager->persist($operation);
+                $entityManager->flush();
+            }
+            
             $this->addFlash('success', 'Votre opération a été crée.');
             return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
         }

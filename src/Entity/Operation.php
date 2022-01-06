@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Entity(repositoryClass=OperationRepository::class)
  */
@@ -55,7 +56,9 @@ class Operation
 
     public function __construct()
     {
+        
         $this->clients = new ArrayCollection();
+ 
     }
 
     public function getId(): ?int

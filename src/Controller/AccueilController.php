@@ -5,24 +5,24 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Repository\ClientRepository;
 use App\Repository\UtilisateurRepository;
+use App\Repository\OperationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 
-
-
 class AccueilController extends AbstractController
 {
     /**
      * @Route("/accueil", name="accueil")
      */
-    public function accueil(ClientRepository $clientRepository, UtilisateurRepository $utilisateurRepository): Response
+    public function accueil(ClientRepository $clientRepository, UtilisateurRepository $utilisateurRepository, OperationRepository $operationRepository): Response
     {
         return $this->render('accueil/index.html.twig', [
             'clients' => $clientRepository->findAll(),
             'utilisateurs' => $utilisateurRepository->findAll(),
+            'operations' => $operationRepository->findAll(),
         ]);
     }
 

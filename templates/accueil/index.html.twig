@@ -24,16 +24,50 @@
         </div>
     {% endfor %}
 
-	<div class="d-flex flex-row w-100 mb-5">
-		<h5 class="fw-normal mb-3">
-
-		</h5>
-	</div>
+	
 	{% if is_granted('ROLE_ADMIN') %}
-	<div class="d-flex flex-row w-100 mb-5">
+	<div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Statistique
 		</h5>
+		<div class="table-responsive rounded-custom bg-white shadow-custom text-start">
+			{% set nbOp = 0 %}
+			{% set nbOpLibre = 0 %}
+			{% set nbOpReserve = 0 %}
+			{% set nbOpTermine = 0 %}
+			{% set CA = 0 %}
+
+			{% for operation in operations %}
+				{% set nbOp = nbOp + 1 %}
+				{% if operation.statutOperation == "Libre" %}
+					{% set nbOpLibre = nbOpLibre + 1 %}
+				{% elseif operation.statutOperation == "En cours" %}
+					{% set nbOpReserve = nbOpReserve + 1 %}
+				{% elseif operation.statutOperation == "Terminée" %}
+					{% set nbOpTermine = nbOpTermine + 1 %}
+					{% set CA = CA + operation.typeOperation.prix %}
+				{% endif %}
+			{% endfor %}
+
+			{% if nbOp != 0 %}
+				{% set PctOpLibre = nbOpLibre / nbOp * 100 %}
+				{% set PctOpReserve = nbOpReserve / nbOp * 100 %}
+				{% set PctOpTermine = nbOpTermine / nbOp * 100 %}
+			<div>Nombre total d'opérations : {{nbOp}}  </div>
+			<div>
+				Nombre d'opérations Libres : {{nbOpLibre}} --> {{PctOpLibre|number_format(2, '.', ',')}}% 
+			</div>
+			<div>Nombre d'opération réservées : {{nbOpReserve}} --> {{PctOpReserve|number_format(2, '.', ',')}}%</div>
+			<div>Nombre d'opération terminées : {{nbOpTermine}} --> {{PctOpTermine|number_format(2, '.', ',')}}%</div>
+			<div>Chiffre d'Affaire (opérations terminées) :  {{CA|number_format(0, '.', ' ')}}€</div>
+			{% else %}
+			<div>Il n'y a pas d'opérations</div>
+			{% endif %}
+			
+
+			
+			
+		</div>
 	</div>
 
 	<div class="d-flex flex-column w-100 mb-5">
