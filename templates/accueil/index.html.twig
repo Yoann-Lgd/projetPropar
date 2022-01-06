@@ -111,7 +111,11 @@
 						<td>{{ utilisateur.telephone }}</td>
 						<td>{{ utilisateur.adresse }}</td>
 						<td>{{ utilisateur.email }}</td>
-						<td class="d-flex flex-row justify-content-evenly w-100"><a href="#"><i class="bi bi-pen"></i></a><a href="#"><i class="bi bi-trash text-danger"></i></a></td>
+						<td class="d-flex flex-row justify-content-evenly w-100">
+							{# <a href="{{ path('registration_register', {'id': utilisateur.id}) }}"> #}
+								<i class="bi bi-pen"></i>
+							{# </a> #}
+							{{ include('utilisateur/_delete_form.html.twig', {'_url': 'accueil'}) }}</td>
 					</tr>
 				{% endfor %}
 				</tbody>
