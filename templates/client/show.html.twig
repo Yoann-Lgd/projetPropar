@@ -38,5 +38,5 @@
 
     <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a>
 
-    {{ include('client/_delete_form.html.twig') }}
+    {{ include('client/_delete_form.html.twig' , {'_url': 'client_index'}) }}
 {% endblock %}

@@ -45,6 +45,7 @@ class Operation
     private $typeOperation;
 
     /**
+     * @Assert\NotBlank
      * @ORM\ManyToMany(targetEntity=Client::class, inversedBy="operations")
      */
     private $clients;
