@@ -70,13 +70,17 @@
                 </div>
                 <div class="modal-body d-flex flex-column ">
                     <h5>Details</h5>
+                    {% for client in operation.clients %}
+                    <p>Client: <span class="text-secondary">{{ client }}</span></p>
+                    {% endfor %}
+                    <p>Prestataire: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
                     <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
-                    <p>Utilisateur: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
-                    <p>Prix: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
+                    <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
                 </div>
                 <div class="modal-footer">
                 {% if is_granted('ROLE_ADMIN') %}
                     {{ include('operation/_delete_form.html.twig') }}
+                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white">Modifier</a>
                 {% endif %}
                     {{ include('operation/_reserved_form.html.twig') }}
                 </div>
@@ -121,13 +125,17 @@
                 </div>
                 <div class="modal-body d-flex flex-column ">
                     <h5>Details</h5>
+                    {% for client in operation.clients %}
+                    <p>Client: <span class="text-secondary">{{ client }}</span></p>
+                    {% endfor %}
+                    <p>Prestataire: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
                     <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
-                    <p>Utilisateur: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
-                    <p>Prix: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
+                    <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
                 </div>
                 <div class="modal-footer">
                 {% if is_granted('ROLE_ADMIN') %}
                     {{ include('operation/_delete_form.html.twig') }}
+                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white">Modifier</a>
                 {% endif %}
                     {{ include('operation/_finish_form.html.twig') }}
                 </div>
@@ -171,13 +179,17 @@
                 </div>
                 <div class="modal-body d-flex flex-column ">
                     <h5>Details</h5>
+                    {% for client in operation.clients %}
+                    <p>Client: <span class="text-secondary">{{ client }}</span></p>
+                    {% endfor %}
+                    <p>Prestataire: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
                     <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
-                    <p>Utilisateur: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
-                    <p>Prix: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
+                    <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
                 </div>
                 {% if is_granted('ROLE_ADMIN') %}
                 <div class="modal-footer">
                     {{ include('operation/_delete_form.html.twig') }}
+                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white">Modifier</a>
                 </div>
                 {% endif %}
                 </div>
