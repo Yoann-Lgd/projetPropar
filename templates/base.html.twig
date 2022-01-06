@@ -24,6 +24,7 @@
 				background-repeat: no-repeat;
 				background-position: center;
 				background-attachment: fixed;
+				background-size : cover;
 				margin: 0;
 				padding: 0;
 				height: 100%;
@@ -132,6 +133,9 @@
 		.shadow-modal {
 			box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
 		}
+		.modal-size-custom {
+			max-width: 1000px;
+		}
         .rounded-custom {
             border-radius: 10px;
         }
@@ -177,5 +181,8 @@
 				{% block body %}{% endblock %}
 			</div>
 		</div>
+		<scripts type="text/javascript"> 
+		{% block scripts %}{% endblock %}
+		</script>
 	</body>
 </html>

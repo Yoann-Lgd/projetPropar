@@ -19,153 +19,186 @@
             </div>
         </div>
     {% endfor %}
-
-    <div class="d-flex flex-column w-100 mb-5">
+       <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Opérations Libres
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
-        {% for operation in operations|filter(operation => operation.statutOperation == 'Libre') %}
-            <div class="rounded-custom bg-white shadow-custom d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #C0C0C0, 0px 2px 28px rgba(58, 59, 69, 0.01);">
-                <div>
-                    <h5>{{ operation.libelle }}</h5>
-                    <p class="text-dark text-opacity-50">
-                    {% for client in operation.clients %}
-                    Client: <span class="text-primary">{{ client }}</span>
-                    {% endfor %}
-                    {# {{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€ #}
-                    </p>
+            {% for operation in operations|filter(operation => operation.statutOperation == 'Libre') %}
+                <div class="rounded-custom bg-white d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #C0C0C0, 0px 2px 28px rgba(58, 59, 69, 0.01);">
+                    <div>
+                        <h5>{{ operation.libelle }}</h5>
+                        <p class="text-dark text-opacity-50">
+                        {% for client in operation.clients %}
+                        Client: <span class="text-primary text-opacity-75">{{ client }}</span>
+                        {% endfor %}
+                        {# {{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€ #}
+                        </p>
+                    </div>
+                    <i class="bi bi-info-circle fs-1 text-dark text-opacity-25" data-bs-toggle="modal" data-bs-target="#operationLibre_{{ operation.id }}"></i>
                 </div>
-                <i class="bi bi-info-circle fs-1 text-success text-opacity-50" data-bs-toggle="modal" data-bs-target="#operationLibre_{{ operation.id }}"></i>
-            </div>
+                <!-- Modal -->
+                <div class="modal fade" id="operationLibre_{{ operation.id }}" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 rounded-custom shadow-modal p-3">
+                    <div class="modal-header d-flex flex-row justify-content-between align-items-start">
+                        <div class="d-flex flex-column">
+                            <h5 class="modal-title text-secondary" id="staticBackdropLabel">{{ operation.libelle }}</h5>
+                            <p class="text-dark text-opacity-50">{{ operation.description }}</p>
+                        </div>
+                        <div class="d-flex flex-row align-items-start h-100">
+                        <p data-toggle="tooltip" title="Hooray!" class="px-2">Statut d'operation</p>
+                        <i class="bi bi-dash-circle-dotted text-dark text-opacity-50" data-bs-dismiss="modal" aria-label="Close"w></i>
+                        {# <button type="button" class="btn-close" id="example" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></button> #}
+                    
+                        </div>
+                    </div>
+                    <div class="modal-body d-flex flex-column ">
+                        <h5>Details</h5>
+                        {% for client in operation.clients %}
+                        <p>Client: <span class="text-secondary">{{ client }}</span></p>
+                        {% endfor %}
+                        <p>Prestataire: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
+                        <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
+                        <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
+                    </div>
+                    <div class="modal-footer">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {{ include('operation/_delete_form.html.twig') }}
+                        <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
+                    {% endif %}
+                        {{ include('operation/_reserved_form.html.twig') }}
+                    </div>
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+            {% if is_granted('ROLE_ADMIN') %}
+            <button class="bg-transparent rounded-custom border-secondary border-2 d-flex flex-row justify-content-center align-items-center p-4 mb-4 opacity-50" style="min-width: 347px; border-style: dashed;" data-bs-toggle="modal" data-bs-target="#operationAjout">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" fill="currentColor" class="bi bi-plus text-success" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                    </svg>
+            </button>
             <!-- Modal -->
-            <div class="modal fade" id="operationLibre_{{ operation.id }}" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-0 rounded-custom shadow-modal p-3">
-                <div class="modal-header d-flex flex-row justify-content-between align-items-start">
-                    <div class="d-flex flex-column">
-                        <h5 class="modal-title text-secondary" id="staticBackdropLabel">{{ operation.libelle }}</h5>
-                        <p class="text-dark text-opacity-50">{{ operation.description }}</p>
+            <div class="modal fade" id="operationAjout" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-size-custom">
+                    <div class="modal-content border-0 rounded-custom shadow-modal p-3">
+                        <div class="modal-header d-flex flex-row justify-content-end align-items-start border-0">
+                            <div class="d-flex flex-row align-items-start h-100">
+                                <button type="button" class="btn bg-danger p-1 rounded-custom text-danger bg-opacity-10" data-bs-dismiss="modal" aria-label="Close">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="modal-body d-flex justify-content-between flex-row mb-4 mx-4">
+                            <div class="d-flex flex-column justify-content-between align-items-center px-2">
+                                <div class="d-flex flex-rox justify-content-start align-items-center" style="width: 300px;">
+                                    <div class="bg-secondary rounded-custom text-secondary bg-opacity-10 d-flex justify-content-center align-items-center" style="width: 48px; height: 48px">
+                                        <p class="fs-5">1</p>
+                                    </div>
+                                    <div style="margin-left: 20px">
+                                        <p class="fw-bold">Initialisation</p>
+                                        <p class="text-dark text-opacity-25" style="font-size: 14px;">Nom et déscription de l'opération</p>
+                                    </div>
+                                </div>
+                                {% for i in 1..4 %}
+                                <div class="d-flex flex-rox justify-content-start align-items-center" style="width: 300px;">
+                                    <div class="bg-dark rounded-custom text-dark bg-opacity-10 d-flex justify-content-center align-items-center" style="width: 48px; height: 48px">
+                                        <p class="fs-5">{{ i + 1 }}</p>
+                                    </div>
+                                    <div style="margin-left: 20px">
+                                        <p class="fw-bold">Libelle</p>
+                                        <p class="text-dark text-opacity-25" style="font-size: 14px;">Details</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                
+                            </div>
+                            <div class="d-flex flex-column w-100 px-2">
+                                {{ include('operation/_form.html.twig', {'button_label': 'Créer'}) }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-flex flex-row align-items-start h-100">
-                    <p data-toggle="tooltip" title="Hooray!" class="px-2">Statut d'operation</p>
-                    <i class="bi bi-dash-circle-dotted text-dark text-opacity-50" data-bs-dismiss="modal" aria-label="Close"w></i>
-                    {# <button type="button" class="btn-close" id="example" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></button> #}
-                   
-                    </div>
-                </div>
-                <div class="modal-body d-flex flex-column ">
-                    <h5>Details</h5>
-                    {% for client in operation.clients %}
-                    <p>Client: <span class="text-secondary">{{ client }}</span></p>
-                    {% endfor %}
-                    <p>Prestataire: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
-                    <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
-                    <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
-                </div>
-                <div class="modal-footer">
-                {% if is_granted('ROLE_ADMIN') %}
-                    {{ include('operation/_delete_form.html.twig') }}
-                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
-                {% endif %}
-                    {{ include('operation/_reserved_form.html.twig') }}
-                </div>
                 </div>
             </div>
-            </div>
-        {% endfor %}
-        {% if is_granted('ROLE_ADMIN') %}
-        <button class="bg-transparent rounded-custom border-secondary border-2 rounded-2 d-flex flex-row justify-content-center align-items-center p-4 mb-4 opacity-50" style="min-width: 347px; border-style: dashed;" data-bs-toggle="modal" data-bs-target="#operationAjout">
-                <i class="bi bi-plus-circle-dotted fs-1 text-success"></i>
-        </button>
-        <!-- Modal -->
-        <div class="modal fade" id="operationAjout" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-custom shadow-modal p-3">
-            <div class="modal-header d-flex flex-row justify-content-between align-items-start">
-                <div class="d-flex flex-column">
-                    <h5 class="modal-title text-secondary" id="staticBackdropLabel">Ajout d'une opération</h5>
-                </div>
-                <div class="d-flex flex-row align-items-start h-100">
-                <button type="button" class="btn-close" id="example" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></button>
-                </div>
-            </div>
-            <div class="modal-body d-flex flex-column ">
-                {{ include('operation/_form.html.twig', {'button_label': 'Créer'}) }}
-            </div>
-            </div>
-        </div>
-        </div>
-        {% endif %}
+            {% endif %}
         </div>
 	</div>
-
     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Opérations En Cours
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
-        {% for operation in operations|filter(operation => operation.statutOperation == 'En cours') %}
-            <div class="rounded-custom bg-white shadow-custom d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #FFC700, 0px 2px 28px rgba(58, 59, 69, 0.01);">
-                <div>
-                    <h5>{{ operation.libelle }}</h5>
-                    <p class="text-dark text-opacity-50">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</p>
-                </div>
-                <i class="bi bi-info-circle fs-1 text-success text-opacity-50" data-bs-toggle="modal" data-bs-target="#operationEnCours_{{ operation.id }}"></i>
-            </div>
-             <!-- Modal -->
-            <div class="modal fade" id="operationEnCours_{{ operation.id }}"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-0 rounded-custom shadow-modal p-3">
-                <div class="modal-header d-flex flex-row justify-content-between align-items-start">
-                    <div class="d-flex flex-column">
-                        <h5 class="modal-title text-secondary" id="staticBackdropLabel">{{ operation.libelle }}</h5>
-                        <p class="text-dark text-opacity-50">{{ operation.description }}</p>
+            {% for operation in operations|filter(operation => operation.statutOperation == 'En cours') %}
+                <div class="rounded-custom bg-white d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #FFC700, 0px 2px 28px rgba(58, 59, 69, 0.01);">
+                    <div>
+                        <h5>{{ operation.libelle }}</h5>
+                        <p class="text-dark text-opacity-50">
+                        {% for client in operation.clients %}
+                        Client: <span class="text-primary text-opacity-75">{{ client }}</span>
+                        {% endfor %}
+                        </p>
                     </div>
-                    <div class="d-flex flex-row align-items-start h-100">
-                    <p data-toggle="tooltip" title="Hooray!" class="px-2">Statut d'operation</p>
-                    <i class="bi bi-clock-fill text-warning" data-bs-dismiss="modal" aria-label="Close"></i>
-                    {# <button type="button" class="btn-close" id="example" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></button> #}
-                   
+                    <i class="bi bi-info-circle fs-1 text-dark text-opacity-25" data-bs-toggle="modal" data-bs-target="#operationEnCours_{{ operation.id }}"></i>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="operationEnCours_{{ operation.id }}"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 rounded-custom shadow-modal p-3">
+                    <div class="modal-header d-flex flex-row justify-content-between align-items-start">
+                        <div class="d-flex flex-column">
+                            <h5 class="modal-title text-secondary" id="staticBackdropLabel">{{ operation.libelle }}</h5>
+                            <p class="text-dark text-opacity-50">{{ operation.description }}</p>
+                        </div>
+                        <div class="d-flex flex-row align-items-start h-100">
+                        <p data-toggle="tooltip" title="Hooray!" class="px-2">Statut d'operation</p>
+                        <i class="bi bi-clock-fill text-warning" data-bs-dismiss="modal" aria-label="Close"></i>
+                        {# <button type="button" class="btn-close" id="example" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="tooltip" data-bs-placement="right" title="Tooltip on right"></button> #}
+                    
+                        </div>
+                    </div>
+                    <div class="modal-body d-flex flex-column ">
+                        <h5>Details</h5>
+                        {% for client in operation.clients %}
+                        <p>Client: <span class="text-secondary">{{ client }}</span></p>
+                        {% endfor %}
+                        <p>Prestataire: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
+                        <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
+                        <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
+                    </div>
+                    <div class="modal-footer">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {{ include('operation/_delete_form.html.twig') }}
+                        <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
+                    {% endif %}
+                        {{ include('operation/_finish_form.html.twig') }}
+                    </div>
                     </div>
                 </div>
-                <div class="modal-body d-flex flex-column ">
-                    <h5>Details</h5>
-                    {% for client in operation.clients %}
-                    <p>Client: <span class="text-secondary">{{ client }}</span></p>
-                    {% endfor %}
-                    <p>Prestataire: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
-                    <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
-                    <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
                 </div>
-                <div class="modal-footer">
-                {% if is_granted('ROLE_ADMIN') %}
-                    {{ include('operation/_delete_form.html.twig') }}
-                    <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
-                {% endif %}
-                    {{ include('operation/_finish_form.html.twig') }}
-                </div>
-                </div>
-            </div>
-            </div>
-        {% else %}
-        <p>Pas d'opération en cours</p>
-        {% endfor %}
+            {% else %}
+            <p>Pas d'opération en cours</p>
+            {% endfor %}
         </div>
 	</div>
-
-    <div class="d-flex flex-column w-100 mb-5">
+     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Opérations terminées
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
         {% for operation in operations|filter(operation => operation.statutOperation == 'Terminée') %}
-            <div class="rounded-custom bg-white shadow-custom d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #20D489, 0px 2px 28px rgba(58, 59, 69, 0.01);">
+            <div class="rounded-custom bg-white d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #20D489, 0px 2px 28px rgba(58, 59, 69, 0.01);">
                 <div>
                     <h5>{{ operation.libelle }}</h5>
-                    <p class="text-dark text-opacity-50">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</p>
+                    <p class="text-dark text-opacity-50">
+                    {% for client in operation.clients %}
+                    Client: <span class="text-primary text-opacity-75">{{ client }}</span>
+                    {% endfor %}
+                    </p>
                 </div>
-                <i class="bi bi-info-circle fs-1 text-success text-opacity-50" data-bs-toggle="modal" data-bs-target="#operationTerminee_{{ operation.id }}"></i>
+                <i class="bi bi-info-circle fs-1 text-dark text-opacity-25" data-bs-toggle="modal" data-bs-target="#operationTerminee_{{ operation.id }}"></i>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="operationTerminee_{{ operation.id }}" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -206,141 +239,57 @@
         {% endfor %}
         </div>
 	</div>
+    {# <form name="operation" method="post">
+    <div id="operation">
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 required" for="operation_libelle">Libelle</label>
+            <div class="col-sm-10">
+                <input type="text" id="operation_libelle" name="operation[libelle]" required="required" maxlength="25" class="form-control">        
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2" for="operation_description">Description</label>
+            <div class="col-sm-10">
+                <textarea id="operation_description" name="operation[description]" maxlength="500" class="form-control"></textarea>        
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 required" for="operation_typeOperation">Type operation</label>
+            <div class="col-sm-10">
+                <select id="operation_typeOperation" name="operation[typeOperation]" class="form-select">
+                    <option value="1">Grosse</option>
+                    <option value="2">Moyenne</option>
+                    <option value="3">Petite manœuvre</option>
+                </select>        
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2 required" for="operation_clients">Clients</label>
+            <div class="col-sm-10">
+                <select id="operation_clients" name="operation[clients][]" required="required" class="form-select" multiple="multiple">
+                    <option value="1">Miller Mitchell</option>
+                    <option value="2">Rodriguez Leslie</option>
+                    <option value="4">moussa issa</option>
+                </select>        
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-form-label col-sm-2" for="operation_utilisateur">Utilisateur</label>
+            <div class="col-sm-10">
+                <select id="operation_utilisateur" name="operation[utilisateur]" class="form-select">
+                    <option value=""></option>
+                    <option value="5">mendes tom</option>
+                    <option value="6">Johnson Arthur</option>
+                    <option value="7">Moore Kristin</option>
+                    <option value="8">Moussa Moussa</option>
+                </select>       
+            </div>
+        </div>
+        <input type="hidden" id="operation__token" name="operation[_token]" value="c12d9bf0e8.ibb019Fo-pKYe-O6COX_pV6WYsby1088fAObFImKgtI.6ufHmJwhifXwLaXiT7bL0RXwG6i0hBxoF27rQc7H3Zb4xJ_how6ppaAqqg">
+    </div>
+    <button class="btn btn-success text-white rounded-custom px-3 fw-bold">Créer</button>
+</form> #}
+{% endblock %}
+{% block scripts %}
 
-{# 
-    <div class="d-flex flex-column w-100 mb-5">
-		<h5 class="fw-normal mb-3">
-			Liste des Opérations Libres
-		</h5>
-		<div class="table-responsive rounded-custom bg-white shadow-custom text-center">
-			<table class="table table-hover table-borderless text-dark">
-				<thead >
-					<tr>
-						<th scope="col" style="width: 54px;">Id</th>
-						<th scope="col">Libelle</th>
-						<th scope="col">Description</th>
-                        <th scope="col">Utilisateurs</th>
-                        <th scope="col">Statut d'operation</th>
-						<th scope="col" style="width: 90px;">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-				{% for operation in operations|filter(operation => operation.statutOperation == 'Libre') %}
-
-					<tr class="align-middle">
-						<td scope="row">#{{ operation.id }}</td>
-                        <td>{{ operation.libelle }}</td>
-						<td>{{ operation.description }}</td>                            
-                        <td>{{ operation.utilisateur }}</td>
-                        <td>{{ operation.statutOperation }}</td>
-						<td class="d-flex flex-row justify-content-evenly w-100">
-                            <a href="{{ path('operation_show', {'id': operation.id}) }}"><i class="bi bi-eye"></i></a>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('operation_edit', {'id': operation.id}) }}"><i class="bi bi-pen"></i></a>
-                            {% endif %}
-                        </td>
-					</tr>
-                {% else %}
-                <tr>
-                    <td colspan="6">Pas d'opération libre</td>
-                </tr>
-
-                {% endfor %}
-
-                {% if is_granted('ROLE_ADMIN') %}
-                <tr>
-                    <td colspan="6"><a type="button" class="btn btn-secondary text-light" href="{{ path('operation_new') }}">Ajouter Une opération</a></td>
-                </tr>
-                
-                {% endif %}
-				</tbody>
-			</table>
-		</div>
-	</div>
-
-    <div class="d-flex flex-column w-100 mb-5">
-		<h5 class="fw-normal mb-3">
-			Liste des opérations En Cours
-		</h5>
-		<div class="table-responsive rounded-custom bg-white shadow-custom text-center">
-			<table class="table table-hover table-borderless text-dark">
-				<thead >
-					<tr>
-						<th scope="col" style="width: 54px;">Id</th>
-						<th scope="col">Libelle</th>
-						<th scope="col">Description</th>
-                        <th scope="col">Utilisateurs</th>
-                        <th scope="col">Statut d'operation</th>
-						<th scope="col" style="width: 90px;">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-                {% for operation in operations|filter(operation => operation.statutOperation == 'En cours') %}
-
-					<tr class="align-middle">
-						<td scope="row">#{{ operation.id }}</td>
-                        <td>{{ operation.libelle }}</td>
-						<td>{{ operation.description }}</td>                            
-                        <td>{{ operation.utilisateur }}</td>
-                        <td>{{ operation.statutOperation }}</td>
-						<td class="d-flex flex-row justify-content-evenly w-100">
-                            <a href="{{ path('operation_show', {'id': operation.id}) }}"><i class="bi bi-eye"></i></a>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('operation_edit', {'id': operation.id}) }}"><i class="bi bi-pen"></i></a>
-                            {% endif %}
-                        </td>
-					</tr>
-                {% else %}
-                <tr>
-                    <td colspan="6">Pas d'opération en cours</td>
-                </tr>
-                {% endfor %}
-                
-				</tbody>
-			</table>
-		</div>
-	</div>
-
-    <div class="d-flex flex-column w-100 mb-5">
-		<h5 class="fw-normal mb-3">
-			Liste des Opérations terminées
-		</h5>
-		<div class="table-responsive rounded-custom bg-white shadow-custom text-center">
-			<table class="table table-hover table-borderless text-dark">
-				<thead >
-					<tr>
-						<th scope="col" style="width: 54px;">Id</th>
-						<th scope="col">Libelle</th>
-						<th scope="col">Description</th>
-                        <th scope="col">Utilisateurs</th>
-                        <th scope="col">Statut d'operation</th>
-						<th scope="col" style="width: 90px;">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-                {% for operation in operations|filter(operation => operation.statutOperation == 'Terminée') %}
-                        <tr class="align-middle">
-                            <td scope="row">#{{ operation.id }}</td>
-                            <td>{{ operation.libelle }}</td>
-                            <td>{{ operation.description }}</td>                            
-                            <td>{{ operation.utilisateur }}</td>
-                            <td>{{ operation.statutOperation }}</td>
-                            <td class="d-flex flex-row justify-content-evenly w-100">
-                                <a href="{{ path('operation_show', {'id': operation.id}) }}"><i class="bi bi-eye"></i></a>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('operation_edit', {'id': operation.id}) }}"><i class="bi bi-pen"></i></a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                {% else %}
-                <tr>
-                    <td colspan="6">Pas d'opération terminée</td>
-                </tr>
-
-                {% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div> #}
-    
 {% endblock %}
