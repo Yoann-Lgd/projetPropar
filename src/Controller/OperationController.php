@@ -6,12 +6,12 @@ use App\Entity\Operation;
 use App\Entity\StatutOperation;
 use App\Form\OperationType;
 use App\Repository\OperationRepository;
-use App\Repository\StatutOperationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\User;
 
 /**
  * @Route("/operation")
@@ -26,6 +26,8 @@ class OperationController extends AbstractController
         $operation = new Operation();
         $form = $this->createForm(OperationType::class, $operation);
         $form->handleRequest($request);
+        // $nbOp = $operationRepository->getRepository(Operation::class);
+        // $nbOp->countByUserId($this->getUser());
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!empty($operation->getUtilisateur()) ) {
@@ -138,17 +140,28 @@ class OperationController extends AbstractController
     /**
      * @Route("/{id}/reserved", name="operation_reserved", methods={"POST"})
      */
-    public function reserved(Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
+    public function reserved(Request $request, Operation $operation, EntityManagerInterface $entityManager, OperationRepository $operationRepository): Response
     {
-        $user = $this->getUser(); /* --> Ajout */
-        $statutOperation = $entityManager->getRepository(StatutOperation::class) /* --> Ajout */
-                                        ->findOneBy(['id' => 2]); /* --> Ajout */
+        $user = $this->getUser();
+        $roles = implode($this->getUser()->getRoles());
+        if ($roles == "ROLE_EXPERT") {
+            $roles = 1;
+        }elseif ($roles == "ROLE_SENIOR") {
+            $roles = 2;
+        }elseif ($roles == "ROLE_APPRENTI") {
+            $roles = 3;
+        }
+
+        $statutOperation = $entityManager->getRepository(StatutOperation::class) 
+                                        ->findOneBy(['id' => 2]); 
+        $nbOp = $operationRepository->getRepository(Operation::class);
+        $nbOp->countByUserId($user)->findAll();
         // $form = $this->createForm(OperationType::class, $operation);
-        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token'))  && (($roles==1 && $nbOp<6) || ($roles==2 && $nbOp<4) || ($roles==3 && $nbOp<2)) ){
             // $form->handleRequest($request);
-            $operation->setUtilisateur($user); /* --> Ajout */
-            $operation->setStatutOperation($statutOperation); /* --> Ajout */
-            $entityManager->persist($operation); /* --> Ajout */
+            $operation->setUtilisateur($user); 
+            $operation->setStatutOperation($statutOperation); 
+            $entityManager->persist($operation); 
             $entityManager->flush();
             $this->addFlash('success', 'Votre opération a été réservée.');
             return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);

@@ -19,22 +19,24 @@ class OperationRepository extends ServiceEntityRepository
         parent::__construct($registry, Operation::class);
     }
 
-    // /**
-    //  * @return Operation[] Returns an array of Operation objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
+    /**
+     * @return Operation[] Returns an array of Operation objects
     */
+    
+    public function countByUserID($id)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT count(*)
+            FROM App\Entity\Operation o
+            WHERE o.utilisateur_id > :id'
+        )->setParameter('utilisateur_id', $id);
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+    
 
     /*
     public function findOneBySomeField($value): ?Operation
