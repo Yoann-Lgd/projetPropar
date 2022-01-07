@@ -145,25 +145,15 @@ class OperationController extends AbstractController
      */
     public function reserved(GrantedService $grantedService, Request $request, Operation $operation, EntityManagerInterface $entityManager, OperationRepository $operationRepository): Response
     {
-        $user = $this->getUser();
-        // $roles = 0;
-        // if ($grantedService->isGranted($this->getUser(), 'ROLE_EXPERT') ) {
-        //     $roles = 1;
-        // }elseif ($grantedService->isGranted($this->getUser(), 'ROLE_SENIOR') ) {
-        //     $roles = 2;
-        // }else{
-        //     $roles = 3;
-        // }
-
-        $statutOperation = $entityManager->getRepository(StatutOperation::class) 
-                                        ->findOneBy(['id' => 2]); 
-
+        $user = $this->getUser(); /* --> Ajout */
+        $statutOperation = $entityManager->getRepository(StatutOperation::class) /* --> Ajout */
+                                        ->findOneBy(['id' => 2]); /* --> Ajout */
         // $form = $this->createForm(OperationType::class, $operation);
-        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token')) ){
+        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token'))) {
             // $form->handleRequest($request);
-            $operation->setUtilisateur($user); 
-            $operation->setStatutOperation($statutOperation); 
-            $entityManager->persist($operation); 
+            $operation->setUtilisateur($user); /* --> Ajout */
+            $operation->setStatutOperation($statutOperation); /* --> Ajout */
+            $entityManager->persist($operation); /* --> Ajout */
             $entityManager->flush();
             $this->addFlash('success', 'Votre opération a été réservée.');
             return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);

@@ -25,16 +25,6 @@ class OperationRepository extends ServiceEntityRepository
     
     public function countByUserID($id)
     {
-        // $entityManager = $this->getEntityManager();
-
-        // $query = $entityManager->createQuery(
-        //     'SELECT *
-        //     FROM App\Entity\Operation o
-        //     WHERE o.utilisateur_id > :id'
-        // )->setParameter('id', $id);
-
-        // // returns an array of Product objects
-        // return $query->getResult();
 
         return $this->createQueryBuilder('o')
             ->select('count(o.utilisateur)')
