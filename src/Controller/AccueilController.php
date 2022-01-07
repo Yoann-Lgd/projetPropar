@@ -6,6 +6,7 @@ use App\Entity\Utilisateur;
 use App\Entity\Client;
 use App\Entity\Operation;
 use App\Security\EmailVerifier;
+use App\Services\GrantedService;
 use App\Repository\ClientRepository;
 use App\Repository\UtilisateurRepository;
 use App\Repository\OperationRepository;
@@ -34,48 +35,50 @@ class AccueilController extends AbstractController
     /**
      * @Route("/accueil", name="accueil")
      */
-    public function accueil(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ClientRepository $clientRepository, UtilisateurRepository $utilisateurRepository, OperationRepository $operationRepository): Response
+    public function accueil(GrantedService $grantedService, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ClientRepository $clientRepository, UtilisateurRepository $utilisateurRepository, OperationRepository $operationRepository): Response
     {
+        if ($grantedService->isGranted($this->getUser(), 'ROLE_EXPERT') ) {
         $user = new Utilisateur();
         $registrationForm = $this->createForm(RegistrationFormType::class, $user);
         $registrationForm->handleRequest($request);
-
+            
+            
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             // encode the plain password
             $user->setPassword(
-            $userPasswordHasher->hashPassword(
+                $userPasswordHasher->hashPassword(
                     $user,
                     $registrationForm->get('plainPassword')->getData()
-                )
-            );
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    )
+                );
+                
+                $entityManager->persist($user);
+                $entityManager->flush();
+                
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('projet.propar@gmail.com', 'Propar-noreply'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                ->from(new Address('projet.propar@gmail.com', 'Propar-noreply'))
+                ->to($user->getEmail())
+                ->subject('Please Confirm your Email')
+                ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
             // $this->addFlash('success', 'Votre adresse e-mail a été vérifiée.');
             return $this->redirectToRoute('accueil');
         }
-
+        
         $client = new Client();
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($client);
             $entityManager->flush();
-
+            
             return $this->redirectToRoute('accueil', [], Response::HTTP_SEE_OTHER);
         }
-
+        
         return $this->render('accueil/index.html.twig', [
             'clients' => $clientRepository->findAll(),
             'utilisateurs' => $utilisateurRepository->findAll(),
@@ -83,6 +86,10 @@ class AccueilController extends AbstractController
             'form' => $form->createView(),
             'registrationForm' => $registrationForm->createView(),
         ]);
+        } else{
+            
+            return $this->redirectToRoute('operation_index');
+        }
     }
 
    /**
