@@ -131,7 +131,7 @@
 				{% for utilisateur in utilisateurs %}
 					<tr class="align-middle">
 						<td scope="row">#{{ utilisateur.id }}</td>
-						<td><img src="https://avatars.dicebear.com/api/identicon/{{ utilisateur.nom }}.{{ utilisateur.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 bg-light"></td>
+						<td><img src="https://avatars.dicebear.com/api/identicon/{{ utilisateur.nom }}.{{ utilisateur.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-custom bg-light"></td>
 						{% for role in utilisateur.roles %}
 						{% if role =='ROLE_APPRENTI' %}
 						<td>Apprenti</td>	
@@ -217,7 +217,7 @@
 				{% for client in clients %}
 					<tr class="align-middle">
 						<td scope="row">#{{ client.id }}</td>
-						<td><img src="https://avatars.dicebear.com/api/identicon/{{ client.nom }}.{{ client.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 bg-light"></td>
+						<td><img src="https://avatars.dicebear.com/api/identicon/{{ client.nom }}.{{ client.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-custom bg-light"></td>
 						<td>{{ client.nom }}</td>
 						<td>{{ client.prenom }}</td>
 						<td>{{ client.telephone }}</td>
