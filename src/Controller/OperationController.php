@@ -22,14 +22,16 @@ class OperationController extends AbstractController
     /**
      * @Route("/", name="operation_index", methods={"GET", "POST"})
      */
-    public function index(Request $request, EntityManagerInterface $entityManager,OperationRepository $operationRepository): Response
+    public function index(GrantedService $grantedService,Request $request, EntityManagerInterface $entityManager,OperationRepository $operationRepository): Response
     {
         $operation = new Operation();
         $form = $this->createForm(OperationType::class, $operation);
         $form->handleRequest($request);
 
-        // $nbOp = $operationRepository->countByUserId($this->getUser());
-        $op = $operationRepository->countByUserID($this->getUser());
+        $nombreOperation = $operationRepository->countByUserID($this->getUser());
+        if ($grantedService->isGranted($this->getUser(), 'ROLE_EXPERT') ) $maxOperation = 5;
+        elseif ($grantedService->isGranted($this->getUser(), 'ROLE_SENIOR') ) $maxOperation = 3;
+        else $maxOperation = 1;
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!empty($operation->getUtilisateur()) ) {
@@ -54,7 +56,8 @@ class OperationController extends AbstractController
             'operations' => $operationRepository->findAll(),
             'operation' => $operation,
             'form' => $form,
-            'op' => $op,
+            'nombreOperation' => $nombreOperation[1],
+            'maxOperation' => $maxOperation,
         ]);
     }
 
@@ -145,15 +148,21 @@ class OperationController extends AbstractController
      */
     public function reserved(GrantedService $grantedService, Request $request, Operation $operation, EntityManagerInterface $entityManager, OperationRepository $operationRepository): Response
     {
-        $user = $this->getUser(); /* --> Ajout */
-        $statutOperation = $entityManager->getRepository(StatutOperation::class) /* --> Ajout */
-                                        ->findOneBy(['id' => 2]); /* --> Ajout */
-        // $form = $this->createForm(OperationType::class, $operation);
+        $user = $this->getUser();
+       
+        $statutOperation = $entityManager->getRepository(StatutOperation::class)
+                                        ->findOneBy(['id' => 2]);
+
+      if ($grantedService->isGranted($user, 'ROLE_EXPERT') ) $nbOperation = 5;
+      elseif ($grantedService->isGranted($user, 'ROLE_SENIOR') ) $nbOperation = 3;
+      else $nbOperation = 1;
+
+
         if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token'))) {
-            // $form->handleRequest($request);
-            $operation->setUtilisateur($user); /* --> Ajout */
-            $operation->setStatutOperation($statutOperation); /* --> Ajout */
-            $entityManager->persist($operation); /* --> Ajout */
+            
+            $operation->setUtilisateur($user); 
+            $operation->setStatutOperation($statutOperation); 
+            $entityManager->persist($operation);
             $entityManager->flush();
             $this->addFlash('success', 'Votre opération a été réservée.');
             return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
@@ -171,6 +180,7 @@ class OperationController extends AbstractController
         $statutOperation = $entityManager->getRepository(StatutOperation::class)
                                         ->findOneBy(['id' => 3]); 
         if ($this->isCsrfTokenValid('finish'.$operation->getId(), $request->request->get('_token'))) {
+            
             $operation->setStatutOperation($statutOperation); 
             $entityManager->persist($operation);
             $entityManager->flush();

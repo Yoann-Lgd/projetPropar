@@ -28,7 +28,7 @@ class OperationRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('o')
             ->select('count(o.utilisateur)')
-            ->andWhere('o.utilisateur = :id')
+            ->andWhere('o.utilisateur = :id and o.statutOperation != 3')
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult()
