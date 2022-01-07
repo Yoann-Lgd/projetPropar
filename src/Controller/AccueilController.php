@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\RegistrationFormType;
 use App\Form\UpdateUserFormType;
 
 class AccueilController extends AbstractController
@@ -54,7 +53,7 @@ class AccueilController extends AbstractController
         return $this->redirectToRoute($request->request->get('_url'), [], Response::HTTP_SEE_OTHER);
     }
 
-/**
+    /**
      * @Route("/{id}/update", name="utilisateur_edit", methods={"GET", "POST"})
      */
     public function register(Utilisateur $utilisateur,Request $request, EntityManagerInterface $entityManager): Response
