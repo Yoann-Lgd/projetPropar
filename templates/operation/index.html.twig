@@ -204,7 +204,7 @@
     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Opérations En Cours
-            <span class="badge bg-warning text-dark"> {{operations|filter(operation => operation.statutOperation == 'En cours') | length}}</span>
+            <span class="badge bg-warning text-dark"> {{operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_ADMIN')) ) | length}}</span>
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
 
@@ -264,7 +264,7 @@
      <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Opérations terminées
-            <span class="badge bg-success"> {{operations|filter(operation => operation.statutOperation == 'Terminée') | length}}</span>
+            <span class="badge bg-success text-light"> {{operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_ADMIN')) ) | length}}</span>
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
             {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_ADMIN')) ) %} 
