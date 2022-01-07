@@ -206,7 +206,6 @@
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
 
-
             {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_ADMIN')) ) %}    
                 <div class="rounded-custom bg-white d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #FFC700, 0px 2px 28px rgba(58, 59, 69, 0.01);">
                     <div>
@@ -265,7 +264,7 @@
 			Opérations terminées
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
-        {% for operation in operations|filter(operation => operation.statutOperation == 'Terminée') %}
+            {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_ADMIN')) ) %} 
             <div class="rounded-custom bg-white d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #20D489, 0px 2px 28px rgba(58, 59, 69, 0.01);">
                 <div>
                     <h5>{{ operation.libelle }}</h5>
