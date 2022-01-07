@@ -33,6 +33,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private $email;
 
     /**
+     * @Assert\NotBlank
      * @ORM\Column(type="json")
      */
     private $roles = [];
@@ -71,11 +72,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $adresse;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="utilisateurs")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $role;
 
     /**
      * @ORM\Column(type="boolean")
@@ -128,7 +124,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        
+
         return array_unique($roles);
     }
 
@@ -248,18 +244,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getRole(): ?Role
-    {
-        return $this->role;
-    }
-
-    public function setRole(?Role $role): self
-    {
-        $this->role = $role;
 
         return $this;
     }

@@ -132,7 +132,15 @@
 					<tr class="align-middle">
 						<td scope="row">#{{ utilisateur.id }}</td>
 						<td><img src="https://avatars.dicebear.com/api/identicon/{{ utilisateur.nom }}.{{ utilisateur.prenom }}.svg" height="32" width="32" alt="..." class="border border-secondary border-2 rounded-2 bg-light"></td>
-						<td>{{ utilisateur.role }}</td>
+						{% for role in utilisateur.roles %}
+						{% if role =='ROLE_APPRENTI' %}
+						<td>Apprenti</td>	
+						{% elseif role =='ROLE_SENIOR' %}
+						<td>Senior</td>	
+						{% else %}	
+						<td>Expert</td>		 
+						{% endif %}
+						{% endfor %}
 						<td>{{ utilisateur.nom }}</td>
 						<td>{{ utilisateur.prenom }}</td>
 						<td>{{ utilisateur.telephone }}</td>
