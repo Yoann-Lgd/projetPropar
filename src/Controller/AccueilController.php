@@ -17,11 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\ORM\EntityManagerInterface;
-<<<<<<< HEAD
-=======
 use App\Form\ClientType;
 use App\Form\RegistrationFormType;
->>>>>>> 2e3f82a6021e9217c4b77953903ee88efe131717
 use App\Form\UpdateUserFormType;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
