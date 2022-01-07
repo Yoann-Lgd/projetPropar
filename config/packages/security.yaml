@@ -35,19 +35,21 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
+        ROLE_APPRENTI: ROLE_USER
+        ROLE_SENIOR: [ROLE_ADMIN, ROLE_APPRENTI]
+        ROLE_EXPERT: [ROLE_SUPER_ADMIN, ROLE_SENIOR, ROLE_ALLOWED_TO_SWITCH]
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/register           , roles: ROLE_ADMIN     }
-        - { path: ^/client             , roles: ROLE_ADMIN     }
-        - { path: ^/operation/new      , roles: ROLE_ADMIN     }
-        - { path: ^/operation/\d+/edit , roles: ROLE_ADMIN     }
-        - { path: ^/operation/\d+      , roles: ROLE_USER      }
-        - { path: ^/operation          , roles: ROLE_USER      }
-        - { path: ^/accueil            , roles: ROLE_USER      }
-        - { path: ^/logout             , roles: ROLE_USER      }
+        - { path: ^/register           , roles: ROLE_EXPERT    }
+        - { path: ^/client             , roles: ROLE_EXPERT    }
+        - { path: ^/operation/new      , roles: ROLE_EXPERT    }
+        - { path: ^/operation/\d+/edit , roles: ROLE_EXPERT    }
+        - { path: ^/operation/\d+      , roles: ROLE_APPRENTI  }
+        - { path: ^/operation          , roles: ROLE_APPRENTI  }
+        - { path: ^/accueil            , roles: ROLE_APPRENTI  }
+        - { path: ^/logout             , roles: [ROLE_APPRENTI, IS_AUTHENTICATED_FULLY]  }
         - { path: ^/login              , roles: PUBLIC_ACCESS  }
 
 when@test:

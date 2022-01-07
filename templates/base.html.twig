@@ -152,8 +152,8 @@
 				</a>
 			</div>
 			<div id="baseSidebarBody" class="w-100">
-			<a href="/accueil" class="text-decoration-none text-white bg-light bg-opacity-25 rounded-3 p-2 d-block fs-6 fw-bold mb-3">{% if is_granted('ROLE_ADMIN') %}<i class="bi bi-graph-up mx-2"></i>Statistique{% else %}<i class="bi bi-house mx-2"></i>Accueil{% endif %}</a>
-			{% if is_granted('ROLE_ADMIN') %}
+			<a href="/accueil" class="text-decoration-none text-white bg-light bg-opacity-25 rounded-3 p-2 d-block fs-6 fw-bold mb-3">{% if is_granted('ROLE_EXPERT') %}<i class="bi bi-graph-up mx-2"></i>Statistique{% else %}<i class="bi bi-house mx-2"></i>Accueil{% endif %}</a>
+			{% if is_granted('ROLE_EXPERT') %}
 			<a href="/client" class="text-decoration-none text-white bg-light bg-opacity-25 rounded-3 p-2 d-block fs-6 fw-bold mb-3"><i class="bi bi-people mx-2"></i>Client</a>
 			{% endif %}
 			<a href="/operation" class="text-decoration-none text-white bg-light bg-opacity-25 rounded-3 p-2 d-block fs-6 fw-bold"><i class="bi bi-calculator mx-2"></i>Opération</a>

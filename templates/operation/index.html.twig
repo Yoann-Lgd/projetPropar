@@ -66,7 +66,7 @@
                         <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
                     </div>
                     <div class="modal-footer">
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_EXPERT') %}
                         {{ include('operation/_delete_form.html.twig') }}
                         <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
                     {% endif %}
@@ -76,7 +76,7 @@
                 </div>
                 </div>
             {% endfor %}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_EXPERT') %}
             <button class="bg-transparent rounded-custom border-secondary border-2 d-flex flex-row justify-content-center align-items-center p-4 mb-4 opacity-50" style="min-width: 347px; border-style: dashed;" data-bs-toggle="modal" data-bs-target="#operationAjout" onclick="modalAjout()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" fill="currentColor" class="bi bi-plus text-success" viewBox="0 0 16 16">
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -204,11 +204,11 @@
     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Opérations En Cours
-            <span class="badge bg-warning text-dark"> {{operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_ADMIN')) ) | length}}</span>
+            <span class="badge bg-warning text-dark"> {{operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) | length}}</span>
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
 
-            {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_ADMIN')) ) %}    
+            {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) %}    
                 <div class="rounded-custom bg-white d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #FFC700, 0px 2px 28px rgba(58, 59, 69, 0.01);">
                     <div>
                         <h5>{{ operation.libelle }}</h5>
@@ -246,7 +246,7 @@
                         <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
                     </div>
                     <div class="modal-footer">
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_EXPERT') %}
                         {{ include('operation/_delete_form.html.twig') }}
                         <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
                     {% endif %}
@@ -264,10 +264,10 @@
      <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Opérations terminées
-            <span class="badge bg-success text-light"> {{operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_ADMIN')) ) | length}}</span>
+            <span class="badge bg-success text-light"> {{operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) | length}}</span>
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
-            {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_ADMIN')) ) %} 
+            {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) %} 
             <div class="rounded-custom bg-white d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #20D489, 0px 2px 28px rgba(58, 59, 69, 0.01);">
                 <div>
                     <h5>{{ operation.libelle }}</h5>
@@ -304,7 +304,7 @@
                     <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
                     <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
                 </div>
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_EXPERT') %}
                 <div class="modal-footer">
                     {{ include('operation/_delete_form.html.twig') }}
                     <a href="{{ path('operation_edit', {'id': operation.id}) }}" class="btn btn-info text-white rounded-custom px-3 fw-bold">Modifier</a>
