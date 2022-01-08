@@ -1,10 +1,76 @@
-    {{ form_start(registrationForm) }}
+    {{ form_start(registrationForm, {'attr': {'id': 'form_user_edit'}}) }}
         {{ form_row(registrationForm.nom) }}
         {{ form_row(registrationForm.prenom) }}
         {{ form_row(registrationForm.telephone) }}
         {{ form_row(registrationForm.adresse) }}
         {{ form_row(registrationForm.roles) }}
         {{ form_row(registrationForm.email) }}
-
         <button class="btn btn-secondary text-white">{{ button_label|default('Inscription') }}</button>
     {{ form_end(registrationForm) }}
+    {% block javascripts %}
+	<script>
+	var requestURL = 'https://api-adresse.data.gouv.fr/search/?q=';
+    var form = document.getElementById("form_user_edit");
+    var formDiv = form.getElementsByTagName("div");
+    formDiv[6].className = "mb-3 row position-relative";
+    var divSelection = document.createElement('div');
+    divSelection.id = "selection";
+    divSelection.style ="display: none; z-index: 999; top: 46px;";
+    divSelection.className = "px-0 position-absolute bg-white rounded-custom flex-column shadow-modal "
+    divSelection.innerHTML = " ";
+    formDiv[6].append(divSelection);
+    var select = document.getElementById("selection");
+	window.onload = function() {
+        document.getElementById("update_user_form_adresse").addEventListener("input", autocompleteAdresse, false);
+    };
+	function displaySelection(response) {
+        if (Object.keys(response.features).length > 0) {
+            select.style.display = "flex";
+            select.removeChild(select.firstChild);
+            
+            var divMain = document.createElement('div');
+            divMain.className = "w-100 rounded-custom";
+            select.appendChild(divMain);
+            response.features.forEach(function (element) {
+
+                var divAddress = document.createElement('div');
+                divAddress.className = "p-2 address-hover cursor-pointer rounded-custom";
+                var ligneAdresse = document.createElement('p');
+                ligneAdresse.className = "d-flex flex-column justify-content-start";
+                var span = document.createElement('span');
+                span.className ="fs-6 fw-bold";
+                var infosAdresse = document.createTextNode(element.properties.context);
+                span.innerHTML = element.properties.name + ' ' + element.properties.postcode + ' ' + element.properties.city;
+                ligneAdresse.appendChild(span);
+                ligneAdresse.appendChild(infosAdresse);
+                divAddress.onclick = function () { selectAdresse(element); };
+                divAddress.appendChild(ligneAdresse);
+                divMain.appendChild(divAddress);
+                
+            });
+        } else {
+            select.style.display = "none";
+        }
+    }
+	function autocompleteAdresse() {
+        var inputValue = document.getElementById("update_user_form_adresse").value;
+        if (inputValue) {
+            fetch(setQuery(inputValue))
+                .then(function (response) {
+                    response.json().then(function (data) {
+                        displaySelection(data);
+                    });
+                });
+        } else {
+            select.style.display = "none";
+        }
+    };
+    function selectAdresse(element) {
+        document.getElementById("update_user_form_adresse").value = element.properties.name + " " + element.properties.postcode + " " + element.properties.city;
+        select.style.display = "none";
+    }
+	function setQuery(value) {
+        return requestURL + value + "?type=housenumber&autocomplete=1";
+    }
+	</script>
+{% endblock %}
