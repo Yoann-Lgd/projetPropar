@@ -80,8 +80,6 @@
                         {{ include('operation/_reserved_form.html.twig') }}
                     {% endif %}
                     
-
-                    
                     </div>
                     </div>
                 </div>
@@ -112,97 +110,9 @@
                             </div>
                             <div class="d-flex flex-column w-100 mx-3 px-4" >
                                 {# Futur modal step ne pas suprimer #}
-                                {# <div id="divBody" class="h-100">
-                                    <form id="operationAjoutForm" name="operation" method="post" class="h-100">
-                                        <div id="operation" class="d-flex flex-row align-items-center h-100 w-100">
-                                            
-                                            <div id="step_1" class="w-100 h-100">
-                                                <div class="h-100 d-flex flex-column">
-                                                    <p class="fs-1 fw-bold">Initialisation</p>
-                                                    <div class="d-flex flex-column justify-content-evenly h-100">
-                                                        <div>
-                                                            <label class="col-form-label col-sm-2 required" for="operation_libelle">Libelle</label>
-                                                            <div class="col-sm-12 w-100">
-                                                                <input type="text" id="operation_libelle" class="bg-light w-100 border-0 rounded-custom p-4"  name="operation[libelle]" required="required" maxlength="25" class="form-control" placeholder="libelle">        
-                                                            </div>
-                                                        </div>
-                                                        <div >
-                                                            <label class="col-form-label col-sm-2" for="operation_description">Description</label>
-                                                            <div class="col-sm-12">
-                                                                <textarea id="operation_description" class="bg-light w-100 border-0 rounded-custom p-4" name="operation[description]" maxlength="500" class="form-control" placeholder="Description..."></textarea>        
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                
 
-                                            <div id="step_2" class="w-100  h-100">
-                                                <div class="h-100 d-flex flex-column">
-                                                    <p class="fs-1 fw-bold">Budget</p>
-                                                    <div class="d-flex flex-column justify-content-evenly h-100">
-                                                        <div>
-                                                            <label class="col-form-label col-sm-2 required" for="operation_typeOperation">Type operation</label>
-                                                            <div class="col-sm-12">
-                                                                <select id="operation_typeOperation" name="operation[typeOperation]" class="form-select">
-                                                                    <option value="1">Grosse</option>
-                                                                    <option value="2">Moyenne</option>
-                                                                    <option value="3">Petite manœuvre</option>
-                                                                </select>        
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div id="step_3" class="w-100  h-100">
-                                                <div class="h-100 d-flex flex-column">
-                                                    <p class="fs-1 fw-bold">Client</p>
-                                                    <div class="d-flex flex-column justify-content-evenly h-100">
-                                                        <div>
-                                                            <label class="col-form-label col-sm-2 required" for="operation_clients">Clients</label>
-                                                            <div class="col-sm-12">
-                                                                <select id="operation_clients" name="operation[clients][]" required="required" class="form-select" multiple="multiple">
-                                                                    <option value="1">Miller Mitchell</option>
-                                                                    <option value="2">Rodriguez Leslie</option>
-                                                                    <option value="4">moussa issa</option>
-                                                                </select>        
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            
-                                            </div>
-
-                                            <div id="step_4" class="w-100  h-100">
-                                                <div class="h-100 d-flex flex-column">
-                                                    <p class="fs-1 fw-bold">Prestataire</p>
-                                                    <div class="d-flex flex-column justify-content-evenly h-100">
-                                                        <div>
-                                                            <label class="col-form-label col-sm-2" for="operation_utilisateur">Utilisateur</label>
-                                                            <div class="col-sm-12">
-                                                                <select id="operation_utilisateur" name="operation[utilisateur]" class="form-select">
-                                                                    <option value=""></option>
-                                                                    <option value="5">mendes tom</option>
-                                                                    <option value="6">Johnson Arthur</option>
-                                                                    <option value="7">Moore Kristin</option>
-                                                                    <option value="8">Moussa Moussa</option>
-                                                                </select>       
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div id="step_5" class="w-100 h-100 pb-4">
-                                                <input type="hidden" id="operation__token" name="operation[_token]" value="c12d9bf0e8.ibb019Fo-pKYe-O6COX_pV6WYsby1088fAObFImKgtI.6ufHmJwhifXwLaXiT7bL0RXwG6i0hBxoF27rQc7H3Zb4xJ_how6ppaAqqg">
-                                            </div>
-                                        </div>
-                                    </form> 
-                                </div>
-                                <div id="divBtn" class="d-flex justify-content-between w-100">
-                                </div> #}
-
-                                {{ include('operation/_form.html.twig', {'button_label': 'Créer'}) }}
+                                {{ include('operation/new.html.twig') }}
                             </div>
                         </div>
                     </div>
@@ -346,214 +256,204 @@
 {% block javascripts %}
     {{ parent() }}
 	{{ encore_entry_script_tags('modalOperationAjout') }}
-    {#// <script>
-    // const DIV_STEP = document.getElementById('divStep');
-    // const DIV_BODY = document.getElementById('divBody');
-    // const DIV_BTN  = document.getElementById('divBtn');
+    <script>
+    const DIV_STEP = document.getElementById('divStep');
+    const DIV_BODY = document.getElementById('divBody');
+    const DIV_BTN  = document.getElementById('divBtn');
     
-    // // charger les étapes
-    // // afficher la premier partie du formulaire
-    // // bouton pour l'étape suivante *4
-    // // modifier les étapes *5
-    // // afficher la sa suite du formulaire *4
-    // // bouton pour validé
+    // charger les étapes
+    // afficher la premier partie du formulaire
+    // bouton pour l'étape suivante *4
+    // modifier les étapes *5
+    // afficher la sa suite du formulaire *4
+    // bouton pour validé
 
-    // var stepList = [
-    //             {'id': 1, 'libelle': "Initialisation" , 'description': "Nom et déscription de l’opération"  , 'step': true },
-    //             {'id': 2, 'libelle': "Budget"         , 'description': "Type de budget de l’opération"      , 'step': false},
-    //             {'id': 3, 'libelle': "Client"         , 'description': "Client pour l’opération"            , 'step': false},
-    //             {'id': 4, 'libelle': "Prestataire"    , 'description': "Utilisateur affecter à l'opération" , 'step': false},
-    //             {'id': 5, 'libelle': "Récapitulatif"  , 'description': "Examiner et soumettre "             , 'step': false}
-    //         ];
-    // var step;
-    // var btnNext = document.createElement('btn');
-    // var btnPrevious = document.createElement('btn');
-    // var btnSubmit = document.createElement('btn');
+    var stepList = [
+                {'id': 1, 'libelle': "Initialisation" , 'description': "Nom et déscription de l’opération"  , 'step': true },
+                {'id': 2, 'libelle': "Budget"         , 'description': "Type de budget de l’opération"      , 'step': false},
+                {'id': 3, 'libelle': "Client"         , 'description': "Client pour l’opération"            , 'step': false},
+                {'id': 4, 'libelle': "Prestataire"    , 'description': "Utilisateur affecter à l'opération" , 'step': false},
+                {'id': 5, 'libelle': "Récapitulatif"  , 'description': "Examiner et soumettre "             , 'step': false}
+            ];
+    var step;
+    var btnNext = document.createElement('btn');
+    var btnPrevious = document.createElement('btn');
+    var btnSubmit = document.createElement('button');
     
-    // function modalAjout() {
+    function modalAjout() {
 
-    //     step = 0;
-        
-        
-    //     console.log('step:',step);
-    //     btnPrevious.id = 'btnPrevious';
-    //     btnPrevious.innerHTML = 'Précédent';
-    //     btnPrevious.className = 'btn btn-success text-white rounded-custom px-3 fw-bold';
-    //     DIV_BTN.appendChild(btnPrevious);
+        step = 0;
+        btnPrevious.id = 'btnPrevious';
+        btnPrevious.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left-short mr-1 fw-bold" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+                                 </svg>
+                                 Précédent
+                                 `;
+        btnPrevious.className = 'btn bg-secondary bg-opacity-25 text-secondary rounded-custom px-3 fw-bold  align-items-center';
+        DIV_BTN.appendChild(btnPrevious);
 
-    //     btnNext.id = 'btnNext';
-    //     btnNext.innerHTML = 'Suivant';
-    //     btnNext.className = 'btn btn-success text-white rounded-custom px-3 fw-bold';
-    //     DIV_BTN.appendChild(btnNext);
+        btnNext.id = 'btnNext';
+        btnNext.innerHTML = `Suivant
+                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-right-short ml-1" viewBox="0 0 16 16">
+                             <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                             </svg>
+                             `;
+        btnNext.className = 'btn btn-success text-white rounded-custom px-3 fw-bold  align-items-center';
+        DIV_BTN.appendChild(btnNext);
 
-    //     btnSubmit.id = 'btnSubmit';
-    //     btnSubmit.innerHTML = 'Créer';
-    //     btnSubmit.className = 'btn btn-success text-white rounded-custom px-3 fw-bold';
-    //     btnSubmit.type = 'submit';
-    //     btnSubmit.form = 'operationAjoutForm';
-    //     DIV_BTN.appendChild(btnSubmit);
-    //     for (let index = 1; index < 5; index++) {
+        btnSubmit.id = 'btnSubmit';
+        btnSubmit.innerHTML = 'Valider';
+        btnSubmit.form = 'operationAjoutForm';
+        btnSubmit.className = 'btn btn-success text-white rounded-custom px-3 fw-bold';
+        DIV_BTN.appendChild(btnSubmit);
+        for (let index = 1; index < 5; index++) {
 
-    //         console.log(index);
-    //         stepList[index].step = false;
-    //         document.getElementById('step_'+(index+1)).style.display = "none"; 
-    //     }
-    //     // document.getElementById('btnSubmit').style.display  = "none";
-        
-    //     console.log(stepList);
-    //     showStep();
-       
-    //     showForm(step);
-    //     showBtn(step);
-    // };
+            stepList[index].step = false;
+            document.getElementById('step_'+(index+1)).style.display = "none"; 
+        }
+        // document.getElementById('btnSubmit').style.display  = "none";
+        showStep();
+        showForm(step);
+        showBtn(step);
+    };
 
-    // function checkStep(step) { 
-    //     console.log('step:',step);
-    //     showBtn(step);
-    //     showStep();
-    //     showForm(step)
-    // }
-    // function showStep() {
+    function checkStep(step) { 
+        showBtn(step);
+        showStep();
+        showForm(step)
+    }
+    function showStep() {
 
-    //     DIV_STEP.innerHTML = "";
-    //     stepList.forEach(element => {
+        DIV_STEP.innerHTML = "";
+        stepList.forEach(element => {
 
-    //         if (element.step) {
+            if (element.step) {
 
-    //             DIV_STEP.innerHTML += `<div class="d-flex flex-rox justify-content-start align-items-center" style="width: 300px;">
-    //                                     <div class="bg-secondary rounded-custom text-secondary bg-opacity-10 d-flex justify-content-center align-items-center" style="width: 48px; height: 48px">
-    //                                         <p class="fs-5">${element.id}</p>
-    //                                     </div>
-    //                                     <div style="margin-left: 20px">
-    //                                         <p class="fw-bold">${element.libelle}</p>
-    //                                         <p class="text-dark text-opacity-25" style="font-size: 14px;">${element.description}</p>
-    //                                     </div>
-    //                                 </div>`;
-    //         } else {
+                DIV_STEP.innerHTML += `<div class="d-flex flex-rox justify-content-start align-items-center" style="width: 300px;">
+                                        <div class="bg-secondary rounded-custom text-secondary bg-opacity-10 d-flex justify-content-center align-items-center" style="width: 48px; height: 48px">
+                                            <p class="fs-5">${element.id}</p>
+                                        </div>
+                                        <div style="margin-left: 20px">
+                                            <p class="fw-bold">${element.libelle}</p>
+                                            <p class="text-dark text-opacity-50" style="font-size: 14px;">${element.description}</p>
+                                        </div>
+                                    </div>`;
+            } else {
 
-    //             DIV_STEP.innerHTML += `<div class="d-flex flex-rox justify-content-start align-items-center" style="width: 300px;">
-    //                                     <div class="bg-dark rounded-custom text-dark bg-opacity-10 d-flex justify-content-center align-items-center" style="width: 48px; height: 48px">
-    //                                         <p class="fs-5">${element.id}</p>
-    //                                     </div>
-    //                                     <div style="margin-left: 20px">
-    //                                         <p class="fw-bold">${element.libelle}</p>
-    //                                         <p class="text-dark text-opacity-25" style="font-size: 14px;">${element.description}</p>
-    //                                     </div>
-    //                                 </div>`;
-    //         }
-    //     });
-    // }
+                DIV_STEP.innerHTML += `<div class="d-flex flex-rox justify-content-start align-items-center" style="width: 300px;">
+                                        <div class="bg-dark rounded-custom text-dark bg-opacity-10 d-flex justify-content-center align-items-center" style="width: 48px; height: 48px">
+                                            <p class="fs-5">${element.id}</p>
+                                        </div>
+                                        <div style="margin-left: 20px">
+                                            <p class="fw-bold">${element.libelle}</p>
+                                            <p class="text-dark text-opacity-50" style="font-size: 14px;">${element.description}</p>
+                                        </div>
+                                    </div>`;
+            }
+        });
+    }
 
-    // function showForm(step) {
-    //     step += 1;
-    //     switch (step) {
-    //         case 1:
-    //             document.getElementById('step_'+step).style.display  = "block"; 
-    //             document.getElementById('step_'+(step+1)).style.display  = "none";
-    //             document.getElementById('step_'+(step+2)).style.display  = "none";
-    //             document.getElementById('step_'+(step+3)).style.display  = "none";
-    //             document.getElementById('step_'+(step+4)).style.display  = "none";
-    //             break;
-    //         case 2:
-    //             document.getElementById('step_'+step).style.display  = "block"; 
-    //             document.getElementById('step_'+(step+1)).style.display  = "none";
-    //             document.getElementById('step_'+(step+2)).style.display  = "none";
-    //             document.getElementById('step_'+(step+3)).style.display  = "none";
-    //             document.getElementById('step_'+(step-1)).style.display  = "none";
-    //             break;
-    //         case 3:
-    //             document.getElementById('step_'+step).style.display  = "block"; 
-    //             document.getElementById('step_'+(step+1)).style.display  = "none";
-    //             document.getElementById('step_'+(step+2)).style.display  = "none";
-    //             document.getElementById('step_'+(step-1)).style.display  = "none";
-    //             document.getElementById('step_'+(step-2)).style.display  = "none";
-    //             break;
-    //         case 4:
-    //             document.getElementById('step_'+step).style.display  = "block"; 
-    //             document.getElementById('step_'+(step+1)).style.display  = "none";
-    //             document.getElementById('step_'+(step-1)).style.display  = "none";
-    //             document.getElementById('step_'+(step-2)).style.display  = "none";
-    //             document.getElementById('step_'+(step-3)).style.display  = "none";
-    //             break;
-    //         case 5:
-    //             document.getElementById('step_'+step).style.display  = "block"; 
-    //             document.getElementById('step_'+(step-1)).style.display  = "none";
-    //             document.getElementById('step_'+(step-2)).style.display  = "none";
-    //             document.getElementById('step_'+(step-3)).style.display  = "none";
-    //             document.getElementById('step_'+(step-4)).style.display  = "none";
-    //             document.getElementById('step_'+step).innerHTML = `
-    //             <div class="h-100 w-100 d-flex flex-column justify-content-between">
-    //             <p class="fs-1 fw-bold">Récapitulatif</p>
-    //                 <div>
-    //                     <p class="fs-6 fw-bold">Initialisation</p>
-    //                     <p class="text-dark text-opacity-50">${document.getElementById('operation_libelle').value}</p>
-    //                     <p class="text-dark text-opacity-50">${document.getElementById('operation_description').value}</p>
-    //                 </div>
-    //                 <div>
-    //                     <p class="fs-6 fw-bold">Budget</p>
-    //                     <p class="text-dark text-opacity-50">${document.getElementById('operation_typeOperation').value}</p>
-    //                 </div>
-    //                 <div>
-    //                     <p class="fs-6 fw-bold">Client</p>
-    //                     <p class="text-dark text-opacity-50">${document.getElementById('operation_clients').value}</p>
-    //                 </div>
-    //                 <div>
-    //                     <p class="fs-6 fw-bold">Prestataire</p>
-    //                     <p class="text-dark text-opacity-50">${document.getElementById('operation_utilisateur').value}</p>
-    //                 </div>
-    //             </div>`;
-    //             break;
-    //     }
-    // }
+    function showForm(step) {
+        step += 1;
+        switch (step) {
+            case 1:
+                document.getElementById('step_'+step).style.display  = "block"; 
+                document.getElementById('step_'+(step+1)).style.display  = "none";
+                document.getElementById('step_'+(step+2)).style.display  = "none";
+                document.getElementById('step_'+(step+3)).style.display  = "none";
+                document.getElementById('step_'+(step+4)).style.display  = "none";
+                break;
+            case 2:
+                document.getElementById('step_'+step).style.display  = "block"; 
+                document.getElementById('step_'+(step+1)).style.display  = "none";
+                document.getElementById('step_'+(step+2)).style.display  = "none";
+                document.getElementById('step_'+(step+3)).style.display  = "none";
+                document.getElementById('step_'+(step-1)).style.display  = "none";
+                break;
+            case 3:
+                document.getElementById('step_'+step).style.display  = "block"; 
+                document.getElementById('step_'+(step+1)).style.display  = "none";
+                document.getElementById('step_'+(step+2)).style.display  = "none";
+                document.getElementById('step_'+(step-1)).style.display  = "none";
+                document.getElementById('step_'+(step-2)).style.display  = "none";
+                break;
+            case 4:
+                document.getElementById('step_'+step).style.display  = "block"; 
+                document.getElementById('step_'+(step+1)).style.display  = "none";
+                document.getElementById('step_'+(step-1)).style.display  = "none";
+                document.getElementById('step_'+(step-2)).style.display  = "none";
+                document.getElementById('step_'+(step-3)).style.display  = "none";
+                break;
+            case 5:
+                document.getElementById('step_'+step).style.display  = "block"; 
+                document.getElementById('step_'+(step-1)).style.display  = "none";
+                document.getElementById('step_'+(step-2)).style.display  = "none";
+                document.getElementById('step_'+(step-3)).style.display  = "none";
+                document.getElementById('step_'+(step-4)).style.display  = "none";
+                document.getElementById('step_'+step).innerHTML = `
+                <div class="h-100 w-100 d-flex flex-column justify-content-between">
+                <p class="fs-1 fw-bold">Récapitulatif</p>
+                    <div>
+                        <p class="fs-6 fw-bold">Initialisation</p>
+                        <p class="text-dark text-opacity-50">${document.getElementById('operation_libelle').value}</p>
+                        <p class="text-dark text-opacity-50">${document.getElementById('operation_description').value}</p>
+                    </div>
+                    <div>
+                        <p class="fs-6 fw-bold">Budget</p>
+                        <p class="text-dark text-opacity-50">${document.getElementById('operation_typeOperation').value}</p>
+                    </div>
+                    <div>
+                        <p class="fs-6 fw-bold">Client</p>
+                        <p class="text-dark text-opacity-50">${document.getElementById('operation_clients').value}</p>
+                    </div>
+                    <div>
+                        <p class="fs-6 fw-bold">Prestataire</p>
+                        <p class="text-dark text-opacity-50">${document.getElementById('operation_utilisateur').value}</p>
+                    </div>
+                </div>`;
+                break;
+        }
+    }
 
-    // function showBtn(step) {
+    function showBtn(step) {
+        if (step <= 0) {
 
-    //     if (step <= 0) {
+            document.getElementById('btnNext').style.display  = "block";
+            document.getElementById('btnPrevious').style.visibility  = "hidden";
+            document.getElementById('btnSubmit').style.display  = "none";
+        }else if (step >= 1 && step <= 3) {
 
-    //         document.getElementById('btnNext').style.display  = "block";
-    //         document.getElementById('btnPrevious').style.visibility  = "hidden";
-    //         document.getElementById('btnSubmit').style.display  = "none";
-    //     }else if (step >= 1 && step <= 3) {
+            document.getElementById('btnNext').style.display  = "block";
+            document.getElementById('btnPrevious').style.visibility  = "visible";
+            document.getElementById('btnSubmit').style.display  = "none";
+        } else {
+            document.getElementById('btnNext').style.display  = "none";
+            document.getElementById('btnPrevious').style.visibility  = "visible";
+            document.getElementById('btnSubmit').style.display  = "block";
+        }
+    }
 
-    //         document.getElementById('btnNext').style.display  = "block";
-    //         document.getElementById('btnPrevious').style.visibility  = "visible";
-    //         document.getElementById('btnSubmit').style.display  = "none";
-    //     } else {
-    //         document.getElementById('btnNext').style.display  = "none";
-    //         document.getElementById('btnPrevious').style.visibility  = "visible";
-    //         document.getElementById('btnSubmit').style.display  = "block";
-    //     }
-    // }
+    btnNext.addEventListener('click', event => {
 
-    // btnNext.addEventListener('click', event => {
+        step += 1
+        stepList[step].step = true;
+        checkStep(step)
+    });
 
-    //     step += 1
-    //     console.log('step Next:',step);
-    //     stepList[step].step = true;
-    //     checkStep(step)
-    // });
-
-    // btnPrevious.addEventListener('click', event => {
+    btnPrevious.addEventListener('click', event => {
 
         
-    //     stepList[step].step = false;
-    //     step -= 1
-    //     console.log('step Previous:',step);
-    //     checkStep(step)
-    // });
+        stepList[step].step = false;
+        step -= 1
+        checkStep(step)
+    });
 
-    // btnSubmit.addEventListener('click', event => {
-    //     let libelle = document.getElementById('operation_libelle').value;
-    //     console.log(libelle);
-    //     let description = document.getElementById('operation_description').value;
-    //     console.log(description);
-    //     let typeOperation = document.getElementById('operation_typeOperation').value;
-    //     console.log(typeOperation);
-    //     let clients = document.getElementById('operation_clients').value;
-    //     console.log(clients);
-    //     let utilisateur = document.getElementById('operation_utilisateur').value;
-    //     console.log(utilisateur);
-    //     alert('submit clicked');
-    // });
-    // </script>#}
+    btnSubmit.addEventListener('click', event => {
+        let libelle = document.getElementById('operation_libelle').value;
+        let description = document.getElementById('operation_description').value;
+        let typeOperation = document.getElementById('operation_typeOperation').value;
+        let clients = document.getElementById('operation_clients').value;
+        let utilisateur = document.getElementById('operation_utilisateur').value;
+    });
+    </script>
 {% endblock %}

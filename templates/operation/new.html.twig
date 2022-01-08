@@ -1,11 +1,132 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}New Operation{% endblock %}
+<div id="divBody" class="h-100">
+    {{ form_start(form, {'attr': {'id': 'operationAjoutForm', 'class': 'h-100'}}) }}
+    <div id="operation" class="d-flex flex-column align-items-center h-100 w-100">
+		<div id="step_1" class="w-100 h-100">
+			<div class="h-100 d-flex flex-column">
+				<p class="fs-1 fw-bold">Initialisation</p>
+				<div class="d-flex flex-column justify-content-evenly h-100">
+                    {{ form_row(form.libelle) }}
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+		</div>
+        <div id="step_2" class="w-100  h-100">
+			<div class="h-100 d-flex flex-column">
+				<p class="fs-1 fw-bold">Budget</p>
+				<div class="d-flex flex-column justify-content-evenly h-100">
+                    {{ form_row(form.typeOperation) }}
+                </div>
+            </div>
+		</div>
+        <div id="step_3" class="w-100  h-100">
+			<div class="h-100 d-flex flex-column">
+				<p class="fs-1 fw-bold">Client</p>
+				<div class="d-flex flex-column justify-content-evenly h-100">
+                    {{ form_row(form.clients) }}
+                </div>
+            </div>
+		</div>
+        <div id="step_4" class="w-100  h-100">
+			<div class="h-100 d-flex flex-column">
+				<p class="fs-1 fw-bold">Prestataire</p>
+				<div class="d-flex flex-column justify-content-evenly h-100">
+                    {{ form_row(form.utilisateur) }}
+                </div>
+            </div>
+		</div>
+        <div id="step_5" class="w-100 h-100 pb-4">
+				
+		</div>
+   
+    {{ form_end(form) }}
+    <div id="divBtn" class="d-flex justify-content-between w-100"></div>
+</div>
+{# <div id="divBody" class="h-100">
+	<form id="operationAjoutForm" name="operation" method="post" class="h-100">
+		<div id="operation" class="d-flex flex-row align-items-center h-100 w-100">
 
-{% block body %}
-    <h1>Create new Operation</h1>
+			<div id="step_1" class="w-100 h-100">
+				<div class="h-100 d-flex flex-column">
+					<p class="fs-1 fw-bold">Initialisation</p>
+					<div class="d-flex flex-column justify-content-evenly h-100">
+						<div>
+							<label class="col-form-label col-sm-2 required" for="operation_libelle">Libelle</label>
+							<div class="col-sm-12 w-100">
+								<input type="text" id="operation_libelle" class="bg-light w-100 border-0 rounded-custom p-4" name="operation[libelle]" required="required" maxlength="25" class="form-control" placeholder="libelle">
+							</div>
+						</div>
+						<div>
+							<label class="col-form-label col-sm-2" for="operation_description">Description</label>
+							<div class="col-sm-12">
+								<textarea id="operation_description" class="bg-light w-100 border-0 rounded-custom p-4" name="operation[description]" maxlength="500" class="form-control" placeholder="Description..."></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-    {{ include('operation/_form.html.twig') }}
+			<div id="step_2" class="w-100  h-100">
+				<div class="h-100 d-flex flex-column">
+					<p class="fs-1 fw-bold">Budget</p>
+					<div class="d-flex flex-column justify-content-evenly h-100">
+						<div>
+							<label class="col-form-label col-sm-2 required" for="operation_typeOperation">Type operation</label>
+							<div class="col-sm-12">
+								<select id="operation_typeOperation" name="operation[typeOperation]" class="form-select">
+									<option value="1">Grosse</option>
+									<option value="2">Moyenne</option>
+									<option value="3">Petite manœuvre</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-    <a href="{{ path('operation_new') }}">back to list</a>
-{% endblock %}
+			<div id="step_3" class="w-100  h-100">
+				<div class="h-100 d-flex flex-column">
+					<p class="fs-1 fw-bold">Client</p>
+					<div class="d-flex flex-column justify-content-evenly h-100">
+						<div>
+							<label class="col-form-label col-sm-2 required" for="operation_clients">Clients</label>
+							<div class="col-sm-12">
+								<select id="operation_clients" name="operation[clients][]" required="required" class="form-select" multiple="multiple">
+									<option value="1">Miller Mitchell</option>
+									<option value="2">Rodriguez Leslie</option>
+									<option value="4">moussa issa</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div id="step_4" class="w-100  h-100">
+				<div class="h-100 d-flex flex-column">
+					<p class="fs-1 fw-bold">Prestataire</p>
+					<div class="d-flex flex-column justify-content-evenly h-100">
+						<div>
+							<label class="col-form-label col-sm-2" for="operation_utilisateur">Utilisateur</label>
+							<div class="col-sm-12">
+								<select id="operation_utilisateur" name="operation[utilisateur]" class="form-select">
+									<option value=""></option>
+									<option value="5">mendes tom</option>
+									<option value="6">Johnson Arthur</option>
+									<option value="7">Moore Kristin</option>
+									<option value="8">Moussa Moussa</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="step_5" class="w-100 h-100 pb-4">
+				<input type="hidden" id="operation__token" name="operation[_token]" value="c12d9bf0e8.ibb019Fo-pKYe-O6COX_pV6WYsby1088fAObFImKgtI.6ufHmJwhifXwLaXiT7bL0RXwG6i0hBxoF27rQc7H3Zb4xJ_how6ppaAqqg">
+			</div>
+		</div>
+	</form>
+</div>
+<div id="divBtn" class="d-flex justify-content-between w-100"></div> #}
