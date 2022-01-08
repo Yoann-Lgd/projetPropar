@@ -7,6 +7,7 @@
 {% endblock %}
 {% block body %}
 
+
 	{% for message in app.flashes('success') %}
         <div class="alert alert-success d-flex align-items-center" role="alert">
             <i class="bi bi-check-circle me-2 text-success"></i>
@@ -26,47 +27,63 @@
 
 	
 	{% if is_granted('ROLE_EXPERT') %}
+	
 	<div class="d-flex flex-column w-100 mb-5">
+				{% set nbOp = 0 %}
+				{% set nbOpLibre = 0 %}
+				{% set nbOpReserve = 0 %}
+				{% set nbOpTermine = 0 %}
+				{% set CA = 0 %}
+
+				{% for operation in operations %}
+					{% set nbOp = nbOp + 1 %}
+					{% if operation.statutOperation == "Libre" %}
+						{% set nbOpLibre = nbOpLibre + 1 %}
+					{% elseif operation.statutOperation == "En cours" %}
+						{% set nbOpReserve = nbOpReserve + 1 %}
+					{% elseif operation.statutOperation == "Terminée" %}
+						{% set nbOpTermine = nbOpTermine + 1 %}
+						{% set CA = CA + operation.typeOperation.prix %}
+					{% endif %}
+				{% endfor %}
 		<h5 class="fw-normal mb-3">
 			Statistique
 		</h5>
-		<div class="table-responsive rounded-custom bg-white shadow-custom text-start">
-			{% set nbOp = 0 %}
-			{% set nbOpLibre = 0 %}
-			{% set nbOpReserve = 0 %}
-			{% set nbOpTermine = 0 %}
-			{% set CA = 0 %}
+		<div class="d-flex flex-row w-100 justify-content-between">
+			<div class="rounded-custom bg-white shadow-custom text-start p-3 mr-4">
 
-			{% for operation in operations %}
-				{% set nbOp = nbOp + 1 %}
-				{% if operation.statutOperation == "Libre" %}
-					{% set nbOpLibre = nbOpLibre + 1 %}
-				{% elseif operation.statutOperation == "En cours" %}
-					{% set nbOpReserve = nbOpReserve + 1 %}
-				{% elseif operation.statutOperation == "Terminée" %}
-					{% set nbOpTermine = nbOpTermine + 1 %}
-					{% set CA = CA + operation.typeOperation.prix %}
+				{% if nbOp != 0 %}
+					{% set PctOpLibre = nbOpLibre / nbOp * 100 %}
+					{% set PctOpReserve = nbOpReserve / nbOp * 100 %}
+					{% set PctOpTermine = nbOpTermine / nbOp * 100 %}
+					<input type="hidden" value="{{nbOpLibre}}" id="operationsLibres"></input>
+					<input type="hidden" value="{{nbOpReserve}}" id="operationsEnCours"></input>
+					<input type="hidden" value="{{nbOpTermine}}" id="operationsTerminees"></input>
+					<input type="hidden" value="{{nbOp}}" id="operationsTotals"></input>
+				{# <p>Nombre total d'opérations : {{nbOp}}  </p>
+				<p>
+					Nombre d'opérations Libres : {{nbOpLibre}} --> {{PctOpLibre|number_format(2, '.', ',')}}% 
+				</p>
+				<p>Nombre d'opération réservées : {{nbOpReserve}} --> {{PctOpReserve|number_format(2, '.', ',')}}%</p>
+				<p>Nombre d'opération terminées : {{nbOpTermine}} --> {{PctOpTermine|number_format(2, '.', ',')}}%</p>
+				<p>Chiffre d'Affaire (opérations terminées) :  {{CA|number_format(0, '.', ',')}}€</p> #}
+				<p>Opération</p>
+				<div id="chartdiv" style="width: 500px; min-height: 300px;"></div>
+				{% else %}
+				<p>Il n'y a pas d'opérations</p>
 				{% endif %}
-			{% endfor %}
+				
 
-			{% if nbOp != 0 %}
-				{% set PctOpLibre = nbOpLibre / nbOp * 100 %}
-				{% set PctOpReserve = nbOpReserve / nbOp * 100 %}
-				{% set PctOpTermine = nbOpTermine / nbOp * 100 %}
-			<div>Nombre total d'opérations : {{nbOp}}  </div>
-			<div>
-				Nombre d'opérations Libres : {{nbOpLibre}} --> {{PctOpLibre|number_format(2, '.', ',')}}% 
+				
+				
 			</div>
-			<div>Nombre d'opération réservées : {{nbOpReserve}} --> {{PctOpReserve|number_format(2, '.', ',')}}%</div>
-			<div>Nombre d'opération terminées : {{nbOpTermine}} --> {{PctOpTermine|number_format(2, '.', ',')}}%</div>
-			<div>Chiffre d'Affaire (opérations terminées) :  {{CA|number_format(0, '.', ' ')}}€</div>
-			{% else %}
-			<div>Il n'y a pas d'opérations</div>
-			{% endif %}
-			
+			<div class="rounded-custom bg-white shadow-custom text-start p-3 w-100">
+				<p>Chiffre d'affaire</p>
+				<div class="w-100 h-100 d-flex justify-content-center align-items-center">
+					<h6 style="font-size: 100px">{{CA|number_format(0, '.', ',')}}€ </h6>
+				</div>
 
-			
-			
+			</div>
 		</div>
 	</div>
 
@@ -238,4 +255,108 @@
 		</div>
 	</div>
 	{% endif %}
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+
+	<!-- Resources -->
+	<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+	<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+	<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+	<script src="https://cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
+
+	<!-- Chart code -->
+	<script>
+
+	am5.ready(function() {
+
+	// Create root element
+	// https://www.amcharts.com/docs/v5/getting-started/#Root_element
+	var root = am5.Root.new("chartdiv");
+
+	// Set themes
+	// https://www.amcharts.com/docs/v5/concepts/themes/
+	root.setThemes([
+		am5themes_Animated.new(root),
+		am5themes_Responsive.new(root)
+	]);
+
+	// Create chart
+	// https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
+	// start and end angle must be set both for chart and series
+	var chart = root.container.children.push(
+		am5percent.PieChart.new(root, {
+			layout: root.verticalLayout,
+			radius: am5.percent(80),
+			innerRadius: am5.percent(70)
+		})
+	);
+
+	var label = chart.seriesContainer.children.push(
+		am5.Label.new(root, {
+			textAlign: "center",
+			centerY: am5.p50,
+			centerX: am5.p50,
+			fill: am5.color(0x022C43),
+			text: "[fontSize:18px]total[/]:\n[bold fontSize:30px]"+document.getElementById('operationsTotals').value+"[/]"
+		})
+	);
+
+	// Define data
+	var data = [{
+		category: "Libres",
+		value: document.getElementById('operationsLibres').value,
+		sliceSettings: { fill: am5.color(0x00B2FF) }
+	}, {
+		category: "En cours",
+		value: document.getElementById('operationsEnCours').value,
+		sliceSettings: { fill: am5.color(0xFFC700) }
+	}, {
+		category: "Terminées",
+		value: document.getElementById('operationsTerminees').value,
+		sliceSettings: { fill: am5.color(0x20D489) }
+	}];
+
+	// Create series
+	var series = chart.series.push(
+		am5percent.PieSeries.new(root, {
+			name: "Series",
+			valueField: "value",
+			categoryField: "category",
+			legendLabelText: "{category}",
+			alignLabels: false
+		})
+	);
+
+	series.slices.template.setAll({
+		templateField: "sliceSettings",
+		strokeOpacity: 0
+	});
+
+	series.data.setAll(data);
+	series.labels.template.setAll({
+		fontSize: 18,
+		text: "[bold]{value}[/]",
+		textType: "circular",
+		inside: true,
+		radius: 10,
+		fill: am5.color(0x022C43)
+	})
+
+	// Create legend
+	var legend = chart.children.push(am5.Legend.new(root, {
+		textAlign: "center",
+		centerX: am5.percent(50),
+		x: am5.percent(50),
+		marginTop: 15,
+		marginBottom: 10,
+		
+	}));
+	// Disabling labels and ticks
+	series.labels.template.set("visible", true);
+	series.ticks.template.set("visible", true);
+	legend.data.setAll(series.dataItems);
+
+	}); // end am5.ready()
+</script>
 {% endblock %}
