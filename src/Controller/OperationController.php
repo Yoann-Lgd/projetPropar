@@ -52,10 +52,10 @@ class OperationController extends AbstractController
             return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('operation/index.html.twig', [
+        return $this->render('operation/index.html.twig', [
             'operations' => $operationRepository->findAll(),
             'operation' => $operation,
-            'form' => $form,
+            'form' => $form->createView(),
             'nombreOperation' => $nombreOperation[1],
             'maxOperation' => $maxOperation,
         ]);
@@ -121,9 +121,9 @@ class OperationController extends AbstractController
             $this->addFlash('success', 'Votre opération a été modifiée.');
             return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
         } 
-        return $this->renderForm('operation/edit.html.twig', [
+        return $this->render('operation/edit.html.twig', [
             'operation' => $operation,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
