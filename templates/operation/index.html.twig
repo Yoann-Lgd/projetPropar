@@ -134,10 +134,10 @@
             {% set newArrayUtilisateur = [] %}
             {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) )|sort((a, b) => a.utilisateur <=> b.utilisateur) %}
 
-                {% if operation.utilisateur not in  newArrayUtilisateur %}
-                <p class="pd-2">{{operation.utilisateur}} : 
-                    <span class="badge mini-btn rounded-custom bg-warning bg-opacity-10 text-warning"> {{operations|filter(op => op.statutOperation == 'En cours' and op.utilisateur.id == operation.utilisateur.id) | length}}</span>
-                </p>
+                {% if operation.utilisateur not in  newArrayUtilisateur and is_granted('ROLE_EXPERT') %}
+                    <p class="col-12 pb-3">{{operation.utilisateur}} : 
+                        <span class="badge mini-btn rounded-custom bg-warning bg-opacity-10 text-warning"> {{operations|filter(op => op.statutOperation == 'En cours' and op.utilisateur.id == operation.utilisateur.id) | length}}</span>
+                    </p>
                 {% set newArrayUtilisateur = newArrayUtilisateur|merge([operation.utilisateur]) %}
                 {% endif %}
     
@@ -205,7 +205,14 @@
             <span class="badge mini-btn rounded-custom bg-success bg-opacity-10 text-success"> {{operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) | length}}</span>
 		</h5>
         <div class="d-flex flex-row justify-content-between flex-wrap">
-            {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) %} 
+            {% set newArrayUtilisateur = [] %}
+            {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'Terminée' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) )|sort((a, b) => a.utilisateur <=> b.utilisateur) %} 
+                {% if operation.utilisateur not in  newArrayUtilisateur and is_granted('ROLE_EXPERT')  %}
+                <p class="col-12 pb-3">{{operation.utilisateur}} : 
+                    <span class="badge mini-btn rounded-custom bg-success bg-opacity-10 text-success"> {{operations|filter(op => op.statutOperation == 'Terminée' and op.utilisateur.id == operation.utilisateur.id) | length}}</span>
+                </p>
+                {% set newArrayUtilisateur = newArrayUtilisateur|merge([operation.utilisateur]) %}
+                {% endif %}
             <div class="rounded-custom bg-white d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #20D489, 0px 2px 28px rgba(58, 59, 69, 0.01);">
                 <div>
                     <h5>{{ operation.libelle }}</h5>
