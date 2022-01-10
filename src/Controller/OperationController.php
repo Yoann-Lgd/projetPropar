@@ -48,8 +48,14 @@ class OperationController extends AbstractController
                     $entityManager->flush();
                     $this->addFlash('success', 'Votre opération a bien été crée et affecté à '.$operation->getUtilisateur());
                 } else {
-                    $this->addFlash('error', 'Votre opération n\'a pas été crée car l\'utilisateur  '.$operation->getUtilisateur().' a atteint son cota');
-                }
+                    $this->addFlash('error', 'Votre opération n\'a pas été crée car l\'utilisateur  '.$operation->getUtilisateur().' a atteint son cota. Veuillez sélectionner un autre utilisateur');
+                    $statutOperation = $entityManager->getRepository(StatutOperation::class) 
+                                                     ->findOneBy(['id' => 1]);
+                    $operation->setUtilisateur(NULL);
+                    $operation->setStatutOperation($statutOperation);
+                    $entityManager->persist($operation);
+                    $entityManager->flush();
+                    }
             } else {
                 $statutOperation = $entityManager->getRepository(StatutOperation::class) 
                                                  ->findOneBy(['id' => 1]);
