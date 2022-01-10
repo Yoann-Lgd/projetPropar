@@ -135,9 +135,9 @@
             {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) )|sort((a, b) => a.utilisateur <=> b.utilisateur) %}
 
                 {% if operation.utilisateur not in  newArrayUtilisateur %}
-                <div class="col-12">
-                    <p class="pd-2">{{operation.utilisateur}} : </p>
-                </div>
+                <p class="pd-2">{{operation.utilisateur}} : 
+                    <span class="badge mini-btn rounded-custom bg-warning bg-opacity-10 text-warning"> {{operations|filter(op => op.statutOperation == 'En cours' and op.utilisateur.id == operation.utilisateur.id) | length}}</span>
+                </p>
                 {% set newArrayUtilisateur = newArrayUtilisateur|merge([operation.utilisateur]) %}
                 {% endif %}
     

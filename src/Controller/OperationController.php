@@ -46,7 +46,7 @@ class OperationController extends AbstractController
                     $operation->setStatutOperation($statutOperation);
                     $entityManager->persist($operation);
                     $entityManager->flush();
-                    $this->addFlash('success', 'Votre opération a bien été crée et affecté à '.$operation->getUtilisateur().$maxOperation);
+                    $this->addFlash('success', 'Votre opération a bien été crée et affecté à '.$operation->getUtilisateur());
                 } else {
                     $this->addFlash('error', 'Votre opération n\'a pas été crée car l\'utilisateur  '.$operation->getUtilisateur().' a atteint son cota');
                 }
