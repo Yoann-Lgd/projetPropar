@@ -127,9 +127,20 @@
 			Opérations En Cours
             <span class="badge mini-btn rounded-custom bg-warning bg-opacity-10 text-warning"> {{operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) | length}}</span>
 		</h5>
+
         <div class="d-flex flex-row justify-content-between flex-wrap">
 
-            {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) %}    
+           
+            {% set newArrayUtilisateur = [] %}
+            {% for operation in operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) )|sort((a, b) => a.utilisateur <=> b.utilisateur) %}
+
+                {% if operation.utilisateur not in  newArrayUtilisateur %}
+                <div class="col-12">
+                    <p class="pd-2">{{operation.utilisateur}} : </p>
+                </div>
+                {% set newArrayUtilisateur = newArrayUtilisateur|merge([operation.utilisateur]) %}
+                {% endif %}
+    
                 <div class="rounded-custom bg-white d-flex flex-row justify-content-between align-items-center p-4 mb-4" style="min-width: 347px; box-shadow: -4px 0px 0px #FFC700, 0px 2px 28px rgba(58, 59, 69, 0.01);">
                     <div>
                         <h5>{{ operation.libelle }}</h5>
@@ -183,6 +194,7 @@
                 </div>
             {% else %}
             <p>Pas d'opération en cours</p>
+            
             {% endfor %}
         </div>
 	</div>
@@ -246,6 +258,7 @@
             </div>
         {% else %}
         <p>Pas d'opération terminée</p>
+        
         {% endfor %}
         </div>
 	</div>

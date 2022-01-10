@@ -153,15 +153,15 @@ class OperationController extends AbstractController
         $statutOperation = $entityManager->getRepository(StatutOperation::class)
                                         ->findOneBy(['id' => 2]);
 
-        $nombreOperation = $operationRepository->countByUserID($this->getUser());
+        // $nombreOperation = $operationRepository->countByUserID($this->getUser());
 
-        $boolOperation = false;
-      if ($grantedService->isGranted($user, 'ROLE_EXPERT') &&  $nombreOperation <=5) $boolOperation = true;
-      elseif ($grantedService->isGranted($user, 'ROLE_SENIOR') &&  $nombreOperation <=3) $boolOperation = true;
-      elseif ($grantedService->isGranted($user, 'ROLE_APPRENTI') &&  $nombreOperation <=1) $boolOperation = true;
+        // $boolOperation = true;
+        // if ($grantedService->isGranted($user, 'ROLE_EXPERT') &&  $operationRepository->countByUserID($this->getUser()) <=5) $boolOperation = true;
+        // elseif ($grantedService->isGranted($user, 'ROLE_SENIOR') &&  $operationRepository->countByUserID($this->getUser()) <=3) $boolOperation = true;
+        // elseif ($grantedService->isGranted($user, 'ROLE_APPRENTI') &&  $operationRepository->countByUserID($this->getUser()) <=1) $boolOperation = true;
 
 
-        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token')) && $boolOperation) {
+        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token')) ) {
             
             $operation->setUtilisateur($user); 
             $operation->setStatutOperation($statutOperation); 
