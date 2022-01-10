@@ -190,14 +190,14 @@ class OperationController extends AbstractController
         /**
      * @Route("/{id}/release", name="operation_release", methods={"POST"})
      */
-    public function release (Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
+    public function release (GrantedService $grantedService, Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
     {
 
         $statutOperation = $entityManager->getRepository(StatutOperation::class)
                                          ->findOneBy(['id' => 1]);
+        $user = $this->getUser();
 
-
-        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token')) ) {
+        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token')) && $grantedService->isGranted($user, 'ROLE_EXPERT') ) {
             
             $operation->setUtilisateur(NULL); 
             $operation->setStatutOperation($statutOperation); 
