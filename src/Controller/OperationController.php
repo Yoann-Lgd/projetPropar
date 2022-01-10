@@ -153,12 +153,15 @@ class OperationController extends AbstractController
         $statutOperation = $entityManager->getRepository(StatutOperation::class)
                                         ->findOneBy(['id' => 2]);
 
-      if ($grantedService->isGranted($user, 'ROLE_EXPERT') ) $nbOperation = 5;
-      elseif ($grantedService->isGranted($user, 'ROLE_SENIOR') ) $nbOperation = 3;
-      else $nbOperation = 1;
+        $nombreOperation = $operationRepository->countByUserID($this->getUser());
+
+        $boolOperation = false;
+      if ($grantedService->isGranted($user, 'ROLE_EXPERT') &&  $nombreOperation <=5) $boolOperation = true;
+      elseif ($grantedService->isGranted($user, 'ROLE_SENIOR') &&  $nombreOperation <=3) $boolOperation = true;
+      elseif ($grantedService->isGranted($user, 'ROLE_APPRENTI') &&  $nombreOperation <=1) $boolOperation = true;
 
 
-        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('reserved'.$operation->getId(), $request->request->get('_token')) && $boolOperation) {
             
             $operation->setUtilisateur($user); 
             $operation->setStatutOperation($statutOperation); 
