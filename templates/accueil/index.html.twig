@@ -25,7 +25,6 @@
         </div>
     {% endfor %}
 
-	
 	{% if is_granted('ROLE_EXPERT') %}
 	
 	<div class="d-flex flex-column w-100 mb-5">
@@ -122,7 +121,7 @@
                             </button>
 						</th>
 
-						<!-- Modal -->
+						<!-- Modal Ajout Utilisateur-->
 						<div class="modal fade" id="utilisateurAjout" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered modal-lg">
 								<div class="modal-content border-0 rounded-custom shadow-modal p-3">
@@ -137,7 +136,8 @@
 										</div>
 									</div>
 									<div class="modal-body d-flex justify-content-between text-start flex-column w-100 p-4">
-											{{ include('registration/register.html.twig', {'button_label': 'Créer'}) }}
+										{{render(controller('App\\Controller\\AccueilController::createUser'))}}
+											
 									</div>
 								</div>
 							</div>
@@ -164,13 +164,35 @@
 						<td>{{ utilisateur.adresse }}</td>
 						<td>{{ utilisateur.email }}</td>
 						<td class="d-flex flex-row justify-content-evenly w-100">
-							<button onclick="window.location.href='{{ path('utilisateur_edit', {'id': utilisateur.id}) }}';" class="btn nimi-btn bg-info p-1 rounded-custom text-info bg-opacity-10">
+							<button class="btn nimi-btn bg-info p-1 rounded-custom text-info bg-opacity-10" data-bs-toggle="modal" data-bs-target="#utilisateurModification_{{utilisateur.id}}">
 								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
 									<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
 								</svg>
 							</button>
 							{{ include('utilisateur/_delete_form.html.twig', {'_url': 'accueil'}) }}</td>
 					</tr>
+
+					<!-- Modal update Utilisateur-->
+					<div class="modal fade" id="utilisateurModification_{{utilisateur.id}}" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered modal-lg">
+							<div class="modal-content border-0 rounded-custom shadow-modal p-3">
+								<div class="modal-header d-flex flex-row justify-content-between align-items-start border-0">
+								<h3>Modification d'un Utilisateur</h3>
+									<div class="d-flex flex-row align-items-start h-100">
+										<button type="button" class="btn nimi-btn bg-danger p-1 rounded-custom text-danger bg-opacity-10" data-bs-dismiss="modal" aria-label="Close">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+												<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+											</svg>
+										</button>
+									</div>
+								</div>
+								<div class="modal-body d-flex justify-content-between text-start flex-column w-100 p-4">
+									{{render(controller('App\\Controller\\AccueilController::updateUser', {'id': utilisateur.id}))}}
+										
+								</div>
+							</div>
+						</div>
+					</div>
 				{% endfor %}
 				</tbody>
 			</table>
@@ -209,7 +231,7 @@
 										</svg>
                                 		</button></th>
 						
-							<!-- Modal -->
+							<!-- Modal créer un client-->
 						<div class="modal fade" id="clientAjout" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered modal-lg">
 								<div class="modal-content border-0 rounded-custom shadow-modal p-3">
@@ -224,10 +246,11 @@
 										</div>
 									</div>
 									<div class="modal-body d-flex justify-content-between text-start flex-column w-100 p-4">
-											{{ include('client/_form.html.twig', {'button_label': 'Créer'}) }}
+										{{render(controller('App\\Controller\\AccueilController::createClient'))}}
 									</div>
 								</div>
-							</d
+							</div>
+						</div>
 					</tr>
 				</thead>
 				<tbody>
@@ -241,7 +264,7 @@
 						<td>{{ client.adresse }}</td>
 						<td>{{ client.mail }}</td>
 						<td class="d-flex flex-row justify-content-evenly w-100">
-							<button onclick="window.location.href='{{ path('client_edit', {'id': client.id}) }}';" class="btn nimi-btn bg-info p-1 rounded-custom text-info bg-opacity-10">
+							<button class="btn nimi-btn bg-info p-1 rounded-custom text-info bg-opacity-10" data-bs-toggle="modal" data-bs-target="#clientModification_{{client.id}}">
 								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
 									<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
 								</svg>
@@ -249,6 +272,25 @@
 							{{ include('client/_delete_form.html.twig', {'_url': 'accueil'}) }}
 						</td>
 					</tr>
+					<div class="modal fade" id="clientModification_{{client.id}}" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered modal-lg">
+							<div class="modal-content border-0 rounded-custom shadow-modal p-3">
+								<div class="modal-header d-flex flex-row justify-content-between align-items-start border-0">
+								<h3>Modification d'un Client</h3>
+									<div class="d-flex flex-row align-items-start h-100">
+										<button type="button" class="btn nimi-btn bg-danger p-1 rounded-custom text-danger bg-opacity-10" data-bs-dismiss="modal" aria-label="Close">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+												<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+											</svg>
+										</button>
+									</div>
+								</div>
+								<div class="modal-body d-flex justify-content-between text-start flex-column w-100 p-4">
+									{{render(controller('App\\Controller\\AccueilController::updateClient', {'id': client.id}))}}
+								</div>
+							</div>
+						</div>
+					</div>
 				{% endfor %}
 				</tbody>
 			</table>
