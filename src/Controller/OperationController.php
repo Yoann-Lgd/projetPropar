@@ -125,7 +125,10 @@ class OperationController extends AbstractController
      */
     public function edit(Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(OperationType::class, $operation);
+        $form = $this->createForm(OperationType::class, $operation, [
+            'action' => $this->generateUrl('operation_edit', ['id' => $operation->getId()]),
+            'method' => 'POST',
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
