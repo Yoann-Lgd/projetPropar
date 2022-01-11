@@ -122,7 +122,10 @@ class AccueilController extends AbstractController
      */
     public function updateUser(Utilisateur $utilisateur,Request $request, EntityManagerInterface $entityManager): Response
     {
-        $formRegister = $this->createForm(UpdateUserFormType::class, $utilisateur);
+        $formRegister = $this->createForm(UpdateUserFormType::class, $utilisateur, [
+            'action' => $this->generateUrl('utilisateur_edit', ['id' => $utilisateur->getId()]),
+            'method' => 'POST',
+        ]);
         $formRegister->handleRequest($request);
 
         if ($formRegister->isSubmitted() && $formRegister->isValid()) {
@@ -158,7 +161,10 @@ class AccueilController extends AbstractController
     public function createUser(Request $request, EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = new Utilisateur;
-        $registrationForm = $this->createForm(RegistrationFormType::class, $user);
+        $registrationForm = $this->createForm(RegistrationFormType::class, $user, [
+            'action' => $this->generateUrl('utilisateur_create'),
+            'method' => 'POST',
+        ]);
         $registrationForm->handleRequest($request);
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
@@ -201,7 +207,10 @@ class AccueilController extends AbstractController
     public function createClient(Request $request, EntityManagerInterface $entityManager): Response
     {
         $client = new Client();
-        $form = $this->createForm(ClientType::class, $client);
+        $form = $this->createForm(ClientType::class, $client, [
+            'action' => $this->generateUrl('client_create'),
+            'method' => 'POST',
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -224,7 +233,10 @@ class AccueilController extends AbstractController
      */
     public function updateClient(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ClientType::class, $client);
+        $form = $this->createForm(ClientType::class, $client, [
+            'action' => $this->generateUrl('client_update',['id' => $client->getId()]),
+            'method' => 'POST',
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
