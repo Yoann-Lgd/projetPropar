@@ -1,13 +1,2 @@
-{% extends 'base.html.twig' %}
+{{ include('operation/_form.html.twig', {'button_label': 'Update'}) }}
 
-{% block title %}Edit Operation{% endblock %}
-
-{% block body %}
-    <h1>Edit Operation</h1>
-
-    {{ include('operation/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('operation_index') }}">back to list</a>
-
-    {{ include('operation/_delete_form.html.twig') }}
-{% endblock %}

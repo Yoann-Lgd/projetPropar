@@ -68,7 +68,7 @@
                     <div class="modal-footer">
                     {% if is_granted('ROLE_EXPERT') %}
                         {{ include('operation/_delete_form.html.twig') }}
-                        <button onclick="window.location.href='{{ path('operation_edit', {'id': operation.id}) }}';"  class="btn bg-info bg-opacity-10 text-info rounded-custom px-2 d-flex align-items-center btn-sm">
+                        <button class="btn bg-info bg-opacity-10 text-info rounded-custom px-2 d-flex align-items-center btn-sm"data-bs-toggle="modal" data-bs-target="#operationEnCoursLibre_{{ operation.id }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pen-fill mr-2" viewBox="0 0 16 16" >
 								<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
 							</svg>
@@ -84,6 +84,26 @@
                     </div>
                 </div>
                 </div>
+                <!-- Modal modifier une opération Libre-->
+                <div class="modal fade" id="operationEnCoursLibre_{{ operation.id }}" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content border-0 rounded-custom shadow-modal p-3">
+                            <div class="modal-header d-flex flex-row justify-content-between align-items-start border-0">
+                            <h3>Modifier une Opération</h3>
+                                <div class="d-flex flex-row align-items-start h-100">
+                                    <button type="button" class="btn nimi-btn bg-danger p-1 rounded-custom text-danger bg-opacity-10" data-bs-dismiss="modal" aria-label="Close">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="modal-body d-flex justify-content-between text-start flex-column w-100 p-4">
+                                {{render(controller('App\\Controller\\OperationController::edit', {'id': operation.id}))}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
             {% if is_granted('ROLE_EXPERT') %}
             <button class="bg-transparent rounded-custom border-secondary border-2 d-flex flex-row justify-content-center align-items-center p-4 mb-4 opacity-50" style="min-width: 347px; border-style: dashed;" data-bs-toggle="modal" data-bs-target="#operationAjout" onclick="modalAjout()">
@@ -91,7 +111,7 @@
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
             </button>
-            <!-- Modal -->
+            <!-- Modal ajouter opération-->
             <div class="modal fade" id="operationAjout" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-size-custom">
                     <div class="modal-content border-0 rounded-custom shadow-modal p-3">
@@ -150,7 +170,7 @@
                     </div>
                     <i class="bi bi-info-circle fs-1 text-info text-opacity-25 cursor-pointer" data-bs-toggle="modal" data-bs-target="#operationEnCours_{{ operation.id }}"></i>
                 </div>
-                <!-- Modal -->
+                <!-- Modal visualisation de l'opération-->
                 <div class="modal fade" "modal-m" id="operationEnCours_{{ operation.id }}"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
                 <div class="modal-dialog modal-dialog-centered modal-m">
                     <div class="modal-content border-0 rounded-custom shadow-modal p-3">
@@ -168,9 +188,7 @@
                     </div>
                     <div class="modal-body d-flex flex-column ">
                         <h5>Details</h5>
-                        {% for client in operation.clients %}
-                        <p>Client: <span class="text-secondary">{{ client }}</span></p>
-                        {% endfor %}
+                        <p>Client: <span class="text-secondary">{{ operation.clients|join }}</span></p>
                         <p>Prestataire: <span class="text-secondary">{{ operation.utilisateur }}</span></p>
                         <p>Type d'opération: <span class="text-secondary">{{ operation.typeOperation }}</span></p>
                         <p>Buget: <span class="text-secondary">{{ operation.typeOperation.prix|number_format(0, '.', ' ') }}€</span></p>
@@ -179,7 +197,7 @@
                     {% if is_granted('ROLE_EXPERT') %}
                         {{ include('operation/_release_form.html.twig') }}
                         {{ include('operation/_delete_form.html.twig') }}
-                        <button onclick="window.location.href='{{ path('operation_edit', {'id': operation.id}) }}';"  class="btn bg-info bg-opacity-10 text-info rounded-custom px-2 d-flex align-items-center btn-sm">
+                        <button class="btn bg-info bg-opacity-10 text-info rounded-custom px-2 d-flex align-items-center btn-sm" data-bs-toggle="modal" data-bs-target="#operationEnCoursModification_{{ operation.id }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-pen-fill mr-2" viewBox="0 0 16 16">
 								<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
 							</svg>
@@ -191,9 +209,28 @@
                     </div>
                 </div>
                 </div>
+                <!-- Modal modifier une opération en cours-->
+                <div class="modal fade" id="operationEnCoursModification_{{ operation.id }}" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content border-0 rounded-custom shadow-modal p-3">
+                            <div class="modal-header d-flex flex-row justify-content-between align-items-start border-0">
+                            <h3>Modifier une Opération</h3>
+                                <div class="d-flex flex-row align-items-start h-100">
+                                    <button type="button" class="btn nimi-btn bg-danger p-1 rounded-custom text-danger bg-opacity-10" data-bs-dismiss="modal" aria-label="Close">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="modal-body d-flex justify-content-between text-start flex-column w-100 p-4">
+                                {{render(controller('App\\Controller\\OperationController::edit', {'id': operation.id}))}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% else %}
             <p>Pas d'opération en cours</p>
-            
             {% endfor %}
         </div>
 	</div>
