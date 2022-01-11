@@ -125,7 +125,7 @@
     <div class="d-flex flex-column w-100 mb-5">
 		<h5 class="fw-normal mb-3">
 			Opérations En Cours
-            {# <span class="badge mini-btn rounded-custom bg-warning bg-opacity-10 text-warning"> {{operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) | length}}</span> #}
+            <span class="badge mini-btn rounded-custom bg-warning bg-opacity-10 text-warning"> {{operations|filter((operation, userid) => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) ) | length}}</span>
 		</h5>
 
         <div class="d-flex flex-row justify-content-between flex-wrap">
