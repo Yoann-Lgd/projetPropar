@@ -49,7 +49,7 @@
 			Statistique
 		</h5>
 		<div class="d-flex flex-row w-100 justify-content-between">
-			<div class="rounded-custom bg-white shadow-custom text-start p-3 mr-4">
+			<div class="rounded-custom bg-white shadow-custom text-start p-1 mr-2">
 
 				{% if nbOp != 0 %}
 					{% set PctOpLibre = nbOpLibre / nbOp * 100 %}
@@ -59,28 +59,23 @@
 					<input type="hidden" value="{{nbOpReserve}}" id="operationsEnCours"></input>
 					<input type="hidden" value="{{nbOpTermine}}" id="operationsTerminees"></input>
 					<input type="hidden" value="{{nbOp}}" id="operationsTotals"></input>
-				{# <p>Nombre total d'opérations : {{nbOp}}  </p>
-				<p>
-					Nombre d'opérations Libres : {{nbOpLibre}} --> {{PctOpLibre|number_format(2, '.', ',')}}% 
-				</p>
-				<p>Nombre d'opération réservées : {{nbOpReserve}} --> {{PctOpReserve|number_format(2, '.', ',')}}%</p>
-				<p>Nombre d'opération terminées : {{nbOpTermine}} --> {{PctOpTermine|number_format(2, '.', ',')}}%</p>
-				<p>Chiffre d'Affaire (opérations terminées) :  {{CA|number_format(0, '.', ',')}}€</p> #}
 				<p>Opération</p>
 				<div id="chartdiv" style="width: 500px; min-height: 300px;"></div>
 				{% else %}
 				<p>Il n'y a pas d'opérations</p>
 				{% endif %}
 				
-
-				
-				
 			</div>
-			<div class="rounded-custom bg-white shadow-custom text-start p-3 w-100">
+			<div class="rounded-custom bg-white shadow-custom text-start p-1 mr-2">
 				<p>Chiffre d'affaire</p>
 				<div class="w-100 h-100 d-flex justify-content-center align-items-center">
 					<h6 style="font-size: 100px">{{CA|number_format(0, '.', ',')}}€</h6>
 				</div>
+
+			</div>
+			<div class="rounded-custom bg-white shadow-custom text-start p-1 mr-2">
+				<p>Chiffre d'affaire par Client</p>
+				<div id="chartdiv2" style="width: 500px; min-height: 300px;"></div>
 
 			</div>
 		</div>
@@ -306,6 +301,7 @@
 	<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
 	<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 	<script src="https://cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
+	<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 
 	<!-- Chart code -->
 	<script>
@@ -399,6 +395,64 @@
 	series.ticks.template.set("visible", true);
 	legend.data.setAll(series.dataItems);
 
+
+	// Create root element
+	// https://www.amcharts.com/docs/v5/getting-started/#Root_element
+	var root = am5.Root.new("chartdiv2");
+	var chart = root.container.children.push( 
+  am5xy.XYChart.new(root, {
+    panY: false,
+    layout: root.verticalLayout
+  }) 
+);
+
+// Define data
+
+var data = [{ 
+  category: "John Doe", 
+  value1: 1000, 
+}, { 
+  category: "Client 2", 
+  value1: 1200, 
+}, { 
+  category: "Client 3", 
+  value1: 850, 
+}];
+
+// Craete Y-axis
+var yAxis = chart.yAxes.push( 
+  am5xy.ValueAxis.new(root, { 
+    renderer: am5xy.AxisRendererY.new(root, {}) 
+  }) 
+);
+
+// Create X-Axis
+var xAxis = chart.xAxes.push(
+  am5xy.CategoryAxis.new(root, {
+    renderer: am5xy.AxisRendererX.new(root, {}),
+    categoryField: "category"
+  })
+);
+xAxis.data.setAll(data);
+
+// Create series
+var series1 = chart.series.push( 
+  am5xy.ColumnSeries.new(root, { 
+    name: "Series", 
+    xAxis: xAxis, 
+    yAxis: yAxis, 
+    valueYField: "value1", 
+    categoryXField: "category" 
+  }) 
+);
+series1.data.setAll(data);
+
+// Add legend
+var legend = chart.children.push(am5.Legend.new(root, {})); 
+legend.data.setAll(chart.series.values);
+
+// Add cursor
+chart.set("cursor", am5xy.XYCursor.new(root, {}));
 	}); // end am5.ready()
 </script>
 {% endblock %}
