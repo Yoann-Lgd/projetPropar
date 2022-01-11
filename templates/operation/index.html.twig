@@ -155,8 +155,15 @@
             {% for operation in operations|filter(operation => operation.statutOperation == 'En cours' and  (operation.utilisateur.id == app.user.id or is_granted('ROLE_EXPERT')) )|sort((a, b) => a.utilisateur <=> b.utilisateur) %}
 
                 {% if operation.utilisateur not in  newArrayUtilisateur and is_granted('ROLE_EXPERT') %}
-                    <p class="col-12 pb-3">{{operation.utilisateur}} : 
-                        <span class="badge mini-btn rounded-custom bg-warning bg-opacity-10 text-warning"> {{operations|filter(op => op.statutOperation == 'En cours' and op.utilisateur.id == operation.utilisateur.id) | length}}</span>
+                    <p class="col-12 pb-3">{{operation.utilisateur}} ({{operation.utilisateur.roles|join}}) : 
+                        {% if operation.utilisateur.roles|join =='ROLE_APPRENTI' %}
+							{% set maxOperations = 1 %}
+                        {% elseif operation.utilisateur.roles|join =='ROLE_SENIOR' %}
+							{% set maxOperations = 3 %}
+                        {% else %}	
+							{% set maxOperations = 5 %}			 
+						{% endif %}
+                        <span class="badge mini-btn rounded-custom bg-warning bg-opacity-10 text-warning"> {{operations|filter(op => op.statutOperation == 'En cours' and op.utilisateur.id == operation.utilisateur.id) | length}}/{{maxOperations}}</span>
                     </p>
                 {% set newArrayUtilisateur = newArrayUtilisateur|merge([operation.utilisateur]) %}
                 {% endif %}

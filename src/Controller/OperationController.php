@@ -48,7 +48,7 @@ class OperationController extends AbstractController
                     $entityManager->flush();
                     $this->addFlash('success', 'Votre opération a bien été crée et affecté à '.$operation->getUtilisateur());
                 } else {
-                    $this->addFlash('error', 'Votre opération n\'a pas été crée car l\'utilisateur  '.$operation->getUtilisateur().' a atteint son cota. Veuillez sélectionner un autre utilisateur');
+                    $this->addFlash('error', 'Votre opération a été crée mais n\'a pas été affecté à l\'utilisateur  '.$operation->getUtilisateur().' car elle a trop d\'opération en cours. Veuillez sélectionner un autre utilisateur');
                     $statutOperation = $entityManager->getRepository(StatutOperation::class) 
                                                      ->findOneBy(['id' => 1]);
                     $operation->setUtilisateur(NULL);
@@ -123,8 +123,9 @@ class OperationController extends AbstractController
     /**
      * @Route("/{id}/edit", name="operation_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Operation $operation, EntityManagerInterface $entityManager): Response
+    public function edit(GrantedService $grantedService, Request $request, Operation $operation, EntityManagerInterface $entityManager, OperationRepository $operationRepository): Response
     {
+        
         $form = $this->createForm(OperationType::class, $operation, [
             'action' => $this->generateUrl('operation_edit', ['id' => $operation->getId()]),
             'method' => 'POST',
@@ -132,8 +133,30 @@ class OperationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            $this->addFlash('success', 'Votre opération a été modifiée.');
+            if (!empty($operation->getUtilisateur()) ) {
+                $nombreOperation = $operationRepository->countByUserID($operation->getUtilisateur());
+                if ($grantedService->isGranted($operation->getUtilisateur(), 'ROLE_EXPERT') ) $maxOperation = 5;
+                elseif ($grantedService->isGranted($operation->getUtilisateur(), 'ROLE_SENIOR') ) $maxOperation = 3;
+                else $maxOperation = 1;
+                if ($nombreOperation[1] < $maxOperation) {
+                    $statutOperation = $entityManager->getRepository(StatutOperation::class)
+                                                     ->findOneBy(['id' => 2]);
+                    $operation->setStatutOperation($statutOperation);
+                    $entityManager->persist($operation);
+                    $entityManager->flush();
+                    $this->addFlash('success', 'Votre opération a bien été modifiée et affectée à '.$operation->getUtilisateur());
+                } else {
+
+                    $this->addFlash('success', 'Votre opération a bien été modifiée');
+                    $this->addFlash('error', 'Votre opération ne peut pas être affectée à '.$operation->getUtilisateur().' car cet utilisateur a trop d\'opération en cours. Veuillez sélectionner un autre utilisateur');
+                    $statutOperation = $entityManager->getRepository(StatutOperation::class) 
+                                                     ->findOneBy(['id' => 1]);
+                    $operation->setUtilisateur(NULL);
+                    $operation->setStatutOperation($statutOperation);
+                    $entityManager->persist($operation);
+                    $entityManager->flush();
+                    }
+            }
             return $this->redirectToRoute('operation_index', [], Response::HTTP_SEE_OTHER);
         } 
         return $this->render('operation/edit.html.twig', [

@@ -130,7 +130,8 @@ class AccueilController extends AbstractController
 
         if ($formRegister->isSubmitted() && $formRegister->isValid()) {
             // encode the plain password
-            
+            $utilisateur->setNom(strtoupper($utilisateur->getNom()));
+            $utilisateur->setPrenom(ucfirst($utilisateur->getPrenom()));
             $entityManager->persist($utilisateur);
             $entityManager->flush();
 
@@ -169,6 +170,8 @@ class AccueilController extends AbstractController
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             // encode the plain password
+            $user->setNom(strtoupper($user->getNom()));
+            $user->setPrenom(ucfirst($user->getPrenom()));
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
